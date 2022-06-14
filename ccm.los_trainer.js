@@ -225,9 +225,27 @@
             false,  // foreign key to left table
             false,  // foreign key to middle table
             false,  // foreign key to right table
-            false   // artificial primary key
+            false,  // artificial primary key
+            false   // Table or Typ
           ];
+          render();
+        },
 
+                /**
+         * when an 'add table' button is clicked
+         * @param {number} table - table index (0: left, 1: middle, 2: right)
+         */
+        onAddTyp: table => {
+
+          // create empty table without any key attribute
+          data.sections[ phrase_nr - 1 ].input.keys[ table ] = [
+            false,  // foreign key to left table
+            false,  // foreign key to middle table
+            false,  // foreign key to right table
+            false,   // artificial primary key
+            true   // Table or Typ
+            
+          ];
           render();
         },
 
@@ -254,7 +272,8 @@
          * when an 'add key attribute' button is clicked
          * @param {number} table - table index (0: left, 1: middle, 2: right)
          */
-        onAddAttr: table => {
+        onAddAttrTable: table => {
+          
 
           /**
            * app state data for current phrase

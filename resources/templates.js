@@ -1,8 +1,3 @@
-/**
- * @overview HTML templates of ccmjs-based web component for ER model to relational scheme training
- * @author André Kless <andre.kless@web.de> 2021
- */
-
 import { html, render } from './../libs/lit/lit.js';
 export { render };
 
@@ -101,7 +96,7 @@ export function main( instance, state, phrase, phrase_nr, events ) {
         <!-- Relational Scheme Tables -->
         <section id="tables" class="px-2 text-nowrap">
           <div>
-            ${ table( 0 ) }
+            ${ renderTable( 0 ) }
           </div>
           <div>
             ${ arrow( 2, 0, events.onArrowChange ) }
@@ -118,7 +113,7 @@ export function main( instance, state, phrase, phrase_nr, events ) {
           <div>
             ${ arrow( 2, 0 ) }
             <div>
-              ${ table( 1 ) }
+              ${ renderTable( 1 ) }
             </div>
           </div>
           <div>
@@ -134,7 +129,7 @@ export function main( instance, state, phrase, phrase_nr, events ) {
             ${ arrow( 1, 2, events.onArrowChange ) }
           </div>
           <div>
-            ${ table( 2 ) }
+            ${ renderTable( 2 ) }
           </div>
         </section>
 
@@ -191,16 +186,19 @@ export function main( instance, state, phrase, phrase_nr, events ) {
     return html`
       <div class="text-${ table === 0 ? 'left' : ( table === 1 ? 'center px-2' : 'right' ) }">
         <button class="btn btn-${ section.feedback ? ( section.feedback.keys[ table ] ? 'danger' : 'success' ) : 'primary' } btn-sm" @click=${ () => events.onAddTable( table ) } .disabled=${ section.feedback } ?data-invisible=${ input.keys[ table ] !== null }>+ "${ section.relationship[ table ] }"${ instance.text.table }</button>
+        </br> </br>
+        <button class="btn btn-${ section.feedback ? ( section.feedback.keys[ table ] ? 'danger' : 'success' ) : 'primary' } btn-sm" @click=${ () => events.onAddTyp( table ) } .disabled=${ section.feedback } ?data-invisible=${ input.keys[ table ] !== null }>+ "${ section.relationship[ table ] }"${ instance.text.typ }</button>
       </div>
     `;
   }
+
 
   /**
    * returns the HTML template for relational scheme table
    * @param {number} table - table index (0: left, 1: middle, 2: right)
    * @returns {TemplateResult} HTML template for relational scheme table
    */
-  function table( table ) {
+  function renderTable( table ) {
 
     /**
      * key attributes of the tables
@@ -219,11 +217,12 @@ export function main( instance, state, phrase, phrase_nr, events ) {
      * @type {boolean}
      */
     const multi_pk = keys && ( ( keys[ 0 ] === 'pk' ) + ( keys[ 1 ] === 'pk' ) + ( keys[ 2 ] === 'pk' ) + keys[ 3 ] ) > 1;
-
+    console.log(instance)
+    console.log(document.getElementById("penis"))
     return html`
       <div class="scheme border" ?data-invisible=${ keys === null }>
         <header class="bg-${ section.feedback ? ( section.feedback.keys[ table ] ? 'success' : 'danger' ) : 'light' } border-bottom px-3 py-2 d-inline-flex justify-content-center align-items-center">
-          <span>${ section.relationship[ table ] }</span>
+          <span>${section.input.keys[ table ] == null ? null :(section.input.keys[ table ][4] ? 'Typ-' : 'Tabelle-') } ${section.relationship[ table ] } </span>
           <span class="icon" ?data-hidden=${ !keys } @click=${ () => events.onRemoveTable( table ) }>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg text-danger ml-1" viewBox="0 0 16 16">
               <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
@@ -243,7 +242,7 @@ export function main( instance, state, phrase, phrase_nr, events ) {
           ${ !multi_pk && keys && keys[ 3 ] ? attr( toID( section.relationship[ table ] ), true, false, false, false ) : '' }
           ${ keys && keys.map( ( fk, i ) => i < 3 && fk !== false && !( fk === 'pk' && multi_pk ) ? attr( toID( section.relationship[ i ] ), fk === 'pk', i, fk === 'opt' ) : '' ) }
           <div class="px-1 ${ missed_keys ? 'bg-danger' : '' }">
-            <button class="btn btn-link btn-sm mt-1 p-0" .disabled=${ section.feedback } ?data-hidden=${ keys && keys[ 3 ] && !addableForeignKey( input.keys, table ) || section.feedback && !missed_keys } @click=${ () => events.onAddAttr( table ) }>+ ${ instance.text.key_attr }</button>
+            <button class="btn btn-link btn-sm mt-1 p-0" .disabled=${ section.feedback } ?data-hidden=${ keys && keys[ 3 ] && !addableForeignKey( input.keys, table ) || section.feedback && !missed_keys } @click=${ () => events.onAddAttrTable( table ) }>+ ${ instance.text.key_attr }</button>
           </div>
         </main>
       </div>
@@ -281,6 +280,14 @@ export function main( instance, state, phrase, phrase_nr, events ) {
     function toID( string ) {
       return string.toLowerCase().trim().replace( /ä/g, 'ae' ).replace( /ö/g, 'oe' ).replace( /ü/g, 'ue' ).replace( /ß/g, 'ss' ).replace( /\W/g, '_' ) + '_id';
     }
+
+  }
+
+  function typ(){
+
+return html `
+    typ
+`
 
   }
 
