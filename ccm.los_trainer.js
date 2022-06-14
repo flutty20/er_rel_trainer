@@ -7,7 +7,7 @@
 
 ( () => {
   const component = {
-    name: 'er_rel_trainer',
+    name: 'los_trainer',
     ccm: './libs/ccm/ccm.js',
     config: {
       "css": [ "ccm.load",

@@ -144,7 +144,8 @@ export const text = {
   "show_solution": "Zeige Lösung",
   "submit": "Antworten",
   "table": "-Tabelle",
-  "title": "ER-REL-Trainer"
+  "typ": "-Typ",
+  "title": "Los-Trainer"
 };
 
 /**
