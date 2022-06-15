@@ -480,7 +480,7 @@ export function addKeyForm( instance, section, table, onSubmit ) {
         </label>
       </div>
 
-      <!-- Referenced Table -->
+      <!-- Referenced Table/Typ -->
       <div id="ref_table" class="form-group" title="${ instance.text.ref_table_input }">
         <label for="key-fk-table">${ instance.text.ref_table }</label>
         <select class="form-control" name="table" id="key-fk-table">
