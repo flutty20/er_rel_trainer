@@ -135,7 +135,7 @@ export const text = {
   "pk": "Primärschlüssel",
   "pk_badge": "Primärschlüssel: Attribut mit dem sich ein Datensatz dieser Tabelle eindeutig identifizieren lässt.",
   "pk_input": "Geben Sie hier an, ob der Schlüssel ein Primärschlüssel ist bzw. zum zusammengesetzten Primärschlüssel gehört.",
-  "ref_table": "Referenzierte Tabelle:",
+  "ref_table": "Referenzierte Tabelle / Typ:",
   "ref_table_input": "Geben Sie hier an auf welche Tabelle der Fremdschlüssel verweist.",
   "remove_attr": "Schlüsselattribut entfernen",
   "retry": "Korrigieren",
