@@ -144,8 +144,18 @@ export const text = {
   "show_solution": "Zeige Lösung",
   "submit": "Antworten",
   "table": "-Tabelle",
+  "title": "Los-Trainer",
+  //new
   "typ": "-Typ",
-  "title": "Los-Trainer"
+  "refo": "Referenz",
+  "refo_input": "Geben Sie hier an, ob es sich um einen referenzierung handelt.",
+  "refo_badge": "Referenz: ist ein Atrebut welches auf einen anderen typen verweist.",
+  "eb":"Einbettung",
+  "eb_input": "Geben Sie hier an, ob es sich um einen Einbettung handelt.",
+  "eb_badge": "Einbettung: Ein eingebetterter typ versiert seine eigenstendigkeit",
+  "ma": "Mengenwertigesatrebut ",
+  "ma_input": "Geben Sie hier an, ob es sich um einen Mengenwertigesatrebut handelt.",
+  "ma_badge": "Mengenwertigesatrebut: ermöglicht es Arrys unter einem atribut zu verwalten."
 };
 
 /**

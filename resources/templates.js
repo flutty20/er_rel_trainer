@@ -453,6 +453,33 @@ export function addKeyForm( instance, section, table, onSubmit ) {
         </label>
       </div>
 
+      <!-- Referenz -->
+      <div class="form-group" title="${ instance.text.refo_input }">
+        <input type="checkbox" name="refo" id="key-refo" .disabled=${ !addableForeignKey( section.input.keys, table ) }>
+        <label class="form-check-label pl-1" for="key-refo">
+          ${ instance.text.refo }
+          <span class="badge badge-danger" title="${ instance.text.refo_badge }">REF</span>
+        </label>
+      </div>
+
+      <!-- Einbettung -->
+      <div class="form-group" title="${ instance.text.eb_input }">
+        <input type="checkbox" name="eb" id="key-eb" .disabled=${ !addableForeignKey( section.input.keys, table ) }>
+        <label class="form-check-label pl-1" for="key-eb">
+          ${ instance.text.eb }
+          <span class="badge badge-success" title="${ instance.text.eb_badge }">EB</span>
+        </label>
+      </div>
+
+      <!--Mengenwertigesatrebut -->
+      <div class="form-group" title="${ instance.text.ma_input }">
+        <input type="checkbox" name="ma" id="key-ma" .disabled=${ !addableForeignKey( section.input.keys, table ) }>
+        <label class="form-check-label pl-1" for="key-ma">
+          ${ instance.text.ma }
+          <span class="badge badge-info" title="${ instance.text.ma_badge }">[ ]</span>
+        </label>
+      </div>
+
       <!-- Referenced Table -->
       <div id="ref_table" class="form-group" title="${ instance.text.ref_table_input }">
         <label for="key-fk-table">${ instance.text.ref_table }</label>
