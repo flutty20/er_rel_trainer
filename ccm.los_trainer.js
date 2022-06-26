@@ -227,6 +227,8 @@
             false,  // foreign key to right table
             false,  // artificial primary key
             false   // Table or Typ
+            //false,  // artificial primary key
+            //false,  // bedingung r! = 
           ];
           render();
         },
@@ -263,7 +265,7 @@
 
           // remove table and any foreign keys in other tables that reference that table
           keys[ table ] = null;
-          keys.forEach( fks => fks && ( fks[ table ] = false ) );
+          keys.forEach( orefs => orefs && ( orefs[ table ] = false ) );
 
           render();
         },
@@ -301,10 +303,13 @@
             const key = $.formData( modal.element.querySelector( 'form' ) );
 
             // add key attribute in table
-            if ( key.fk )
-              phrase.input.keys[ table ][ key.table ] = key.pk && 'pk' || key.opt && 'opt' || 'fk';  // foreign key
-            else
-              phrase.input.keys[ table ][ 3 ] = true;  // artificial primary key
+            
+            if ( key.oid )
+              phrase.input.keys[ table ][ 3 ] = true;  // artificial oid
+            if ( key.oref )
+              phrase.input.keys[ table ][ key.table ] = key.oid && 'oid' || key.opt && 'opt' || 'oref';  // referenz
+            if ( key.eb )
+              phrase.input.keys[ table ][ key.table ] = key.oid && 'oid' || key.opt && 'opt' || 'eb';  // referenz
 
             modal.close(); render();
           };
@@ -312,10 +317,18 @@
           // render web form in modal dialog
           this.html.render( this.html.addKeyForm( this, phrase, table, onSubmit ), modal.element.querySelector( 'main' ) );
 
-          const pk = modal.element.querySelector( '#key-pk' );                            // checkbox for primary key
-          const fk = modal.element.querySelector( '#key-fk' );                            // checkbox for foreign key
+          const oid = modal.element.querySelector( '#key-oid' );                            // checkbox for primary key
+          const oref = modal.element.querySelector( '#key-oref' );                            // checkbox for foreign key
           const opt = modal.element.querySelector( '#key-opt' );                          // checkbox for optional attribute
-          const ref = modal.element.querySelector( '#key-fk-table' );                     // selector box for selecting the table referenced by the foreign key
+          const ref_select = modal.element.querySelector( '#key-ref-select' );                     // selector box for selecting the table referenced by the foreign key
+          //new
+          const eb = modal.element.querySelector( '#key-eb' );                            // checkbox for Einbettung
+          const ma = modal.element.querySelector( '#key-ma' );
+          const maspan = modal.element.querySelector( '#maspan' );                        // checkbox for Mengenwertigesatrebut
+          const maselect = modal.element.querySelector( '#key-maselect' );                            // select for Mengenwertigesatrebut
+          const unique = modal.element.querySelector( '#key-unique' );                            // checkbox for Einbettung
+          const redundanz = modal.element.querySelector( '#key-redundanz' );                            // checkbox for Mengenwertigesatrebut
+
           const submit = modal.element.querySelector( 'input[type="submit"]' );           // submit button of the web form
           const checkboxes = modal.element.querySelectorAll( 'input[type="checkbox"]' );  // all checkboxes of the web form
 
@@ -323,23 +336,29 @@
           checkboxes.forEach( checkbox => checkbox.checked = false );
           modal.element.querySelectorAll( 'option' ).forEach( option => option.selected = false );
 
-          pk.disabled = phrase.input.keys[ table ][ 3 ];  // enable checkbox for primary key
-          ref.disabled = true;     // disable selector box for selecting the table referenced by the foreign key
+          oid.disabled = phrase.input.keys[ table ][ 3 ];  // enable checkbox for primary key
+          ref_select.disabled = true;     // disable selector box for selecting the table referenced by the foreign key
+          ma.disabled = true;
+          maselect.disabled = true;
+          unique.disabled = true;   // disable checkbox for Eindeuti attribute
+          redundanz.disabled = true;// disable checkbox for Redundanzkontrolle attribute
           opt.disabled = true;     // disable checkbox for optional attribute
           submit.disabled = true;  // disable submit button of the web form
 
           // listen to change event of checkbox for primary key
-          pk.addEventListener( 'change', event => {
-            opt.disabled = event.target.checked || !fk.checked;  // a primary key cannot also be an optional attribute
-            submit.disabled = !pk.checked && !fk.checked;        // the key attribute must be either a primary key or a foreign key
+          oid.addEventListener( 'change', event => {
+            opt.disabled = event.target.checked || !oref.checked;  // a primary key cannot also be an optional attribute
+            submit.disabled = !oid.checked && !oref.checked;        // the key attribute must be either a primary key or a foreign key
           } );
 
           // listen to change event of checkbox for foreign key
-          fk.addEventListener( 'change', event => {
-            pk.disabled = !event.target.checked && phrase.input.keys[ table ][ 3 ];  // a foreign key can be a primary key
-            ref.disabled = !event.target.checked;                // the referenced table can only be selected for a foreign key
-            opt.disabled = !event.target.checked || pk.checked;  // only a foreign key can be a optional key
-            submit.disabled = !pk.checked && !fk.checked;        // the key attribute must be either a primary key or a foreign key
+          oref.addEventListener( 'change', event => {
+            oid.disabled = !event.target.checked && phrase.input.keys[ table ][ 3 ];  // a foreign key can be a primary key
+            ref_select.disabled = !event.target.checked;                // the referenced table can only be selected for a foreign key
+            opt.disabled = !event.target.checked || oid.checked;  // only a foreign key can be a optional key
+            submit.disabled = !oid.checked && !oref.checked;        // the key attribute must be either a primary key or a foreign key
+            ma.disabled = !event.target.checked;
+            eb.checked = false;
 
             // foreign key has been unchecked?
             if ( !event.target.checked ) {
@@ -347,9 +366,30 @@
             }
           } );
 
+          // listen to change event of checkbox for foreign key
+          ma.addEventListener( 'change', event => {
+            maselect.disabled = !event.target.checked;  // a foreign key can be a primary key
+            unique.disabled = !event.target.checked;
+          } );
+
+          // listen to change event of checkbox for foreign key
+          maselect.addEventListener( 'change', event => {
+            var elem = maselect.value;
+            maspan.innerText = "["+elem+"]";  // a foreign key can be a primary key
+          } );
+
+          eb.addEventListener( 'change', event => {
+            ma.disabled = !event.target.checked;
+            ref_select.disabled = !event.target.checked;
+            oref.checked = false;
+            submit.disabled = !event.target.checked;
+            
+            
+          } );
+
           // listen to change event of checkbox for optional attribute
           opt.addEventListener( 'change', event => {
-            pk.disabled = event.target.checked;       // a optional attribute cannot be a primary key
+            oid.disabled = event.target.checked;       // a optional attribute cannot be a primary key
           } );
 
           modal.open();
@@ -367,7 +407,7 @@
           // is artificial primary key?
           if ( to === false ) {
             keys[ from ][ 3 ] = false;                              // remove artificial primary key
-            keys.forEach( fks => fks && ( fks[ from ] = false ) );  // remove any foreign keys in other tables that reference that table
+            keys.forEach( orefs => orefs && ( orefs[ from ] = false ) );  // remove any foreign keys in other tables that reference that table
           }
           // is foreign key => remove key and corresponding arrowheads
           else {
@@ -400,15 +440,15 @@
           const single_left = left === 'c' || left === '1';
           const single_right = right === 'c' || right === '1';
           const multi = ( left === 'cn' || left === 'n' ) && ( right === 'cn' || right === 'n' );
-          const fk_l2r = single_right && !( left === '1' && right === 'c' ) ? ( right === 'c' ? 'opt' : ( single_left ? 'pk' : 'fk' ) ) : false;
-          const fk_r2l = single_left && right !== '1' ? ( left === 'c' ? 'opt' : ( single_right ? 'pk': 'fk' ) ) : false;
+          const oref_l2r = single_right && !( left === '1' && right === 'c' ) ? ( right === 'c' ? 'opt' : ( single_left ? 'oid' : 'oref' ) ) : false;
+          const oref_r2l = single_left && right !== '1' ? ( left === 'c' ? 'opt' : ( single_right ? 'oid': 'oref' ) ) : false;
 
           // define correct solution for feedback
           section.feedback = {
             keys: [
-              [ false, false, fk_l2r, !( single_left && single_right && right !== 'c' ) ],
-              multi ? [ 'pk', false, 'pk', false ] : null,
-              [ fk_r2l, false, false, !( single_left && single_right && right === 'c' ) ]
+              [ false, false, oref_l2r, !( single_left && single_right && right !== 'c' ) ],
+              multi ? [ 'oid', false, 'oid', false ] : null,
+              [ oref_r2l, false, false, !( single_left && single_right && right === 'c' ) ]
             ],
             arrows: [
               [ false, false, ( !single_left || !( left === '1' && right === 'c' ) ) && single_right ],

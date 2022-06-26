@@ -138,15 +138,15 @@ export function main( instance, state, phrase, phrase_nr, events ) {
         ${ !section.feedback && !section.input.keys.every( table => !table || table.some( key => key ) ) && phraseComment( instance.text.comment.add_keys ) || '' }
         ${ !section.feedback && missingArrowheads() && phraseComment( instance.text.comment.missing_arrow ) || '' }
         ${ instance.feedback && section.feedback && ( !section.input.keys[ 0 ] || !section.input.keys[ 2 ] ) && phraseComment( instance.text.comment.missing_entity_table ) || '' }
-        ${ instance.feedback && section.feedback && ( section.input.keys[ 0 ] && !section.input.keys[ 0 ][ 3 ] && !section.input.keys[ 0 ].some( key => key === 'pk' ) || section.input.keys[ 2 ] && !section.input.keys[ 2 ][ 3 ] && !section.input.keys[ 2 ].some( key => key === 'pk' ) ) && phraseComment( instance.text.comment.missing_entity_pk ) || '' }
+        ${ instance.feedback && section.feedback && ( section.input.keys[ 0 ] && !section.input.keys[ 0 ][ 3 ] && !section.input.keys[ 0 ].some( key => key === 'oid' ) || section.input.keys[ 2 ] && !section.input.keys[ 2 ][ 3 ] && !section.input.keys[ 2 ].some( key => key === 'oid' ) ) && phraseComment( instance.text.comment.missing_entity_oid ) || '' }
         ${ instance.feedback && section.feedback && !is_multi && section.input.keys[ 1 ] && phraseComment( instance.text.comment.no_nm_table ) || '' }
         ${ instance.feedback && section.feedback && is_multi && !section.input.keys[ 1 ] && phraseComment( instance.text.comment.missing_nm_table ) || '' }
-        ${ instance.feedback && section.feedback && is_multi && section.input.keys[ 1 ] && ( !section.input.keys[ 1 ][ 0 ] || !section.input.keys[ 1 ][ 2 ] ) && phraseComment( instance.text.comment.missing_nm_fk ) || '' }
-        ${ instance.feedback && section.feedback && is_multi && section.input.keys[ 1 ] && section.input.keys[ 1 ][ 0 ] && section.input.keys[ 1 ][ 2 ] && ( section.input.keys[ 1 ][ 0 ] !== 'pk' || section.input.keys[ 1 ][ 2 ] !== 'pk' ) && phraseComment( instance.text.comment.missing_nm_pk, 0 ) || '' }
-        ${ instance.feedback && section.feedback && is_single && section.input.keys[ 0 ] && section.input.keys[ 2 ] && left === right && !section.input.keys[ 0 ][ 2 ] && phraseComment( instance.text.comment.missing_11_fk, 0 ) || '' }
-        ${ instance.feedback && section.feedback && is_single && section.input.keys[ 0 ] && section.input.keys[ 2 ] && left !== right && !section.input.keys[ left === 'c' ? 0 : 2 ][ left === 'c' ? 2 : 0 ] && phraseComment( instance.text.comment.missing_1c_fk, left === 'c' ? 0 : 2 ) || '' }
-        ${ instance.feedback && section.feedback && !is_single && !is_multi && section.input.keys[ 0 ] && section.input.keys[ 2 ] && !section.input.keys[ left === 'c' || left === '1' ? 2 : 0 ][ left === 'c' || left === '1' ? 0 : 2 ] && phraseComment( instance.text.comment.missing_1n_fk, left === 'c' || left === '1' ? 2 : 0 ) || '' }
-        ${ instance.feedback && section.feedback && is_single && section.input.keys[ 0 ] && section.input.keys[ 2 ] && section.input.keys[ right === 'c' ? 2 : 0 ][ right === 'c' ? 0 : 2 ] !== 'pk' && phraseComment( instance.text.comment.missing_11_unique, right === 'c' ? 2 : 0 ) || '' }
+        ${ instance.feedback && section.feedback && is_multi && section.input.keys[ 1 ] && ( !section.input.keys[ 1 ][ 0 ] || !section.input.keys[ 1 ][ 2 ] ) && phraseComment( instance.text.comment.missing_nm_oref ) || '' }
+        ${ instance.feedback && section.feedback && is_multi && section.input.keys[ 1 ] && section.input.keys[ 1 ][ 0 ] && section.input.keys[ 1 ][ 2 ] && ( section.input.keys[ 1 ][ 0 ] !== 'oid' || section.input.keys[ 1 ][ 2 ] !== 'oid' ) && phraseComment( instance.text.comment.missing_nm_oid, 0 ) || '' }
+        ${ instance.feedback && section.feedback && is_single && section.input.keys[ 0 ] && section.input.keys[ 2 ] && left === right && !section.input.keys[ 0 ][ 2 ] && phraseComment( instance.text.comment.missing_11_oref, 0 ) || '' }
+        ${ instance.feedback && section.feedback && is_single && section.input.keys[ 0 ] && section.input.keys[ 2 ] && left !== right && !section.input.keys[ left === 'c' ? 0 : 2 ][ left === 'c' ? 2 : 0 ] && phraseComment( instance.text.comment.missing_1c_oref, left === 'c' ? 0 : 2 ) || '' }
+        ${ instance.feedback && section.feedback && !is_single && !is_multi && section.input.keys[ 0 ] && section.input.keys[ 2 ] && !section.input.keys[ left === 'c' || left === '1' ? 2 : 0 ][ left === 'c' || left === '1' ? 0 : 2 ] && phraseComment( instance.text.comment.missing_1n_oref, left === 'c' || left === '1' ? 2 : 0 ) || '' }
+        ${ instance.feedback && section.feedback && is_single && section.input.keys[ 0 ] && section.input.keys[ 2 ] && section.input.keys[ right === 'c' ? 2 : 0 ][ right === 'c' ? 0 : 2 ] !== 'oid' && phraseComment( instance.text.comment.missing_11_unique, right === 'c' ? 2 : 0 ) || '' }
         ${ instance.feedback && section.feedback && !is_multi && section.input.keys[ 0 ] && section.input.keys[ 2 ] && !is_single && ( left === 'c' || right === 'c' ) && section.input.keys[ right === 'c' ? 0 : 2 ][ right === 'c' ? 2 : 0 ] !== 'opt' && phraseComment( instance.text.comment.missing_opt, right === 'c' ? 0 : 2 ) || '' }
         ${ instance.feedback && section.feedback && !is_multi && JSON.stringify( section.input.keys ) === JSON.stringify( section.feedback.keys ) && JSON.stringify( section.input.arrows ) !== JSON.stringify( section.feedback.arrows ) && phraseComment( instance.text.comment.missing_arrowhead, section.input.keys[ 0 ][ 2 ] ? 0 : 2 ) || '' }
         ${ instance.feedback && section.feedback && is_multi && section.input.keys[ 1 ] && section.input.keys[ 1 ][ 0 ] && section.input.keys[ 1 ][ 2 ] && JSON.stringify( section.input.arrows ) !== JSON.stringify( section.feedback.arrows ) && phraseComment( instance.text.comment.missing_arrowhead_nm, 0 ) || '' }
@@ -216,9 +216,7 @@ export function main( instance, state, phrase, phrase_nr, events ) {
      * table has a composite primary key
      * @type {boolean}
      */
-    const multi_pk = keys && ( ( keys[ 0 ] === 'pk' ) + ( keys[ 1 ] === 'pk' ) + ( keys[ 2 ] === 'pk' ) + keys[ 3 ] ) > 1;
-    console.log(instance)
-    console.log(document.getElementById("penis"))
+    const multi_oid = keys && ( ( keys[ 0 ] === 'oid' ) + ( keys[ 1 ] === 'oid' ) + ( keys[ 2 ] === 'oid' ) + keys[ 3 ] ) > 1;
     return html`
       <div class="scheme border" ?data-invisible=${ keys === null }>
         <header class="bg-${ section.feedback ? ( section.feedback.keys[ table ] ? 'success' : 'danger' ) : 'light' } border-bottom px-3 py-2 d-inline-flex justify-content-center align-items-center">
@@ -230,17 +228,17 @@ export function main( instance, state, phrase, phrase_nr, events ) {
           </span>
         </header>
         <main class="p-2">
-          <div class="d-flex align-items-stretch border border-primary rounded bg-light" ?data-hidden=${ !multi_pk }>
+          <div class="d-flex align-items-stretch border border-primary rounded bg-light" ?data-hidden=${ !multi_oid }>
             <div>
-              ${ multi_pk && keys && keys[ 3 ] ? attr( toID( section.relationship[ table ] ), true, false, false, false ) : '' }
-              ${ multi_pk && keys && keys.map( ( fk, i ) => i < 3 && fk !== false && fk === 'pk' ? attr( toID( section.relationship[ i ] ), fk === 'pk', i, fk === 'opt' ) : '' ) || '' }
+              ${ multi_oid && keys && keys[ 3 ] ? attr( toID( section.relationship[ table ] ), true, false, false, false,false,false,false ) : '' }
+              ${ multi_oid && keys && keys.map( ( oref, i ) => i < 3 && oref !== false && oref === 'oid' ? attr( toID( section.relationship[ i ] ), oref === 'oid', i,false,false,false,false, oref === 'opt' ) : '' ) || '' }
             </div>
             <div class="bg-primary d-flex align-items-center">
-              <span class="badge badge-primary ml-0" title="${ instance.text.multi_pk_badge }">PK</span>
+              <span class="badge badge-primary ml-0" title="${ instance.text.multi_oid_badge }">OID</span>
             </div>
           </div>
-          ${ !multi_pk && keys && keys[ 3 ] ? attr( toID( section.relationship[ table ] ), true, false, false, false ) : '' }
-          ${ keys && keys.map( ( fk, i ) => i < 3 && fk !== false && !( fk === 'pk' && multi_pk ) ? attr( toID( section.relationship[ i ] ), fk === 'pk', i, fk === 'opt' ) : '' ) }
+            ${ !multi_oid && keys && keys[ 3 ] ? attr( toID( section.relationship[ table ] ), true, false, false, false,false,false,false ) : '' }
+            ${ keys && keys.map( ( key, i ) => i < 3 && key !== false && !( key === 'oid' && multi_oid ) ? attr( toID( section.relationship[ i ] ), key === 'oid', key === 'oref',key === 'eb',false,false,false, key === 'opt',i ) : '' ) }
           <div class="px-1 ${ missed_keys ? 'bg-danger' : '' }">
             <button class="btn btn-link btn-sm mt-1 p-0" .disabled=${ section.feedback } ?data-hidden=${ keys && keys[ 3 ] && !addableForeignKey( input.keys, table ) || section.feedback && !missed_keys } @click=${ () => events.onAddAttrTable( table ) }>+ ${ instance.text.key_attr }</button>
           </div>
@@ -249,21 +247,21 @@ export function main( instance, state, phrase, phrase_nr, events ) {
     `;
 
     /**
-     * returns the HTML template for attribute of a relational scheme table
-     * @param {string} name - attribute name
-     * @param {boolean} pk - is primary key (or part of it)
-     * @param {boolean|number} fk - is foreign key to table with given index
-     * @param {boolean} opt - is optional attribute
-     * @returns {TemplateResult} HTML template for attribute
+    **
      */
-    function attr( name, pk, fk, opt ) {
+    function attr( name, oid, oref, eb, me, redundanz, unique, opt, reftable ) {
       return html`
-        <div class="attr p-1 d-flex align-items-center ${ section.feedback && section.feedback.keys[ table ] ? ( fk !== false && keys[ fk ] === section.feedback.keys[ table ][ fk ] || fk === false && pk && keys[ 3 ] === section.feedback.keys[ table ][ 3 ] ? 'bg-success' : 'bg-danger' ) : '' }">
-          <span title="${ instance.text.attr_name }">${ name }</span>
-          ${ pk && !multi_pk ? html`<span class="badge badge-primary" title="${ instance.text.pk_badge }">PK</span>` : '' }
-          ${ fk || fk === 0 ? html`<span class="badge badge-warning" title="${ instance.text.fk_badge }">FK</span>` : '' }
-          ${ opt ? html`<span class="badge badge-secondary" title="${ instance.text.opt_badge }">OPT</span>` : '' }
-          <span class="icon" title="${ instance.text.remove_attr }" @click=${ () => events.onRemoveAttr( table, fk ) }>
+        <div class="attr p-1  ${eb || eb === 0 ? 'ml-3' : ''} d-flex align-items-center ${ section.feedback && section.feedback.keys[ table ] ? ( oref !== false && keys[ oref ] === section.feedback.keys[ table ][ oref ] || oref === false && oid && keys[ 3 ] === section.feedback.keys[ table ][ 3 ] ? 'bg-success' : 'bg-danger' ) : '' }">
+       
+        <span title="${ instance.text.attr_name }">${ name }</span>
+          ${ oid && !multi_oid ? html`<span class="badge badge-primary" title="${ instance.text.oid_badge }">OID</span>` : '' }
+          ${ oref || oref === 0 ? html`<span class="badge badge-warning" title="${ instance.text.oref_badge }">REF</span>` : '' }
+          ${ eb || eb === 0 ? html`<span class="badge badge-success" title="${ instance.text.eb_badge }">EB</span>` : '' }
+          ${ me || me === 0 ? html`<span class="badge badge-info" title="${ instance.text.me_badge }">[ ]</span>` : '' }
+          ${ redundanz || redundanz === 0 ? html`<span class="badge badge-secondary" title="${ instance.text.redundanz_badge }">R!</span>` : '' }
+          ${ unique || unique === 0 ? html`<span class="badge badge-secondary" title="${ instance.text.unique_badge }">U!</span>` : '' }
+          ${ opt || opt === 0 ? html`<span class="badge badge-secondary" title="${ instance.text.opt_badge }">OPT</span>` : '' }
+          <span class="icon" title="${ instance.text.remove_attr }" @click=${ () => events.onRemoveAttr( table, reftable ) }>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg text-danger ml-1" viewBox="0 0 16 16">
               <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
             </svg>
@@ -321,13 +319,13 @@ return html `
   /**
    * returns the HTML template for a comment
    * @param {string} text - comment text
-   * @param {number} [fk_table] - index of the table that needs a foreign key
+   * @param {number} [oref_table] - index of the table that needs a foreign key
    * @returns {TemplateResult} HTML template for a comment
    */
-  function phraseComment( text, fk_table ) {
+  function phraseComment( text, oref_table ) {
     return html`
       <section class="comment">
-        <div class="alert alert-info mt-2 mb-0" role="alert">${ text.replaceAll( '%middle%', phrase.relationship[ 1 ] ).replaceAll( '%fk%', phrase.relationship[ fk_table ] ).replaceAll( '%nofk%', phrase.relationship[ fk_table ? 0 : 2 ] ) }</div>
+        <div class="alert alert-info mt-2 mb-0" role="alert">${ text.replaceAll( '%middle%', phrase.relationship[ 1 ] ).replaceAll( '%oref%', phrase.relationship[ oref_table ] ).replaceAll( '%noref%', phrase.relationship[ oref_table ? 0 : 2 ] ) }</div>
       </section>
     `;
   }
@@ -373,7 +371,7 @@ return html `
     for ( let i = 0; i < input.keys.length; i++ )
       if ( input.keys[ i ] )
         for ( let j = 0; j < input.keys[ i ].length; j++ )
-          if ( input.keys[ i ][ j ] === 'fk' ) {
+          if ( input.keys[ i ][ j ] === 'oref' ) {
             if ( !input.arrows[ i ][ j ] && !input.arrows[ j ][ i ] )
               return true;
           }
@@ -434,31 +432,21 @@ export function addKeyForm( instance, section, table, onSubmit ) {
 
   return html`
     <form id="attr-form" @submit=${ onSubmit }>
-
-      <!-- Primary Key -->
-      <div class="form-group" title="${ instance.text.pk_input }">
-        <input type="checkbox" name="pk" id="key-pk">
-        <label class="form-check-label pl-1" for="key-pk">
-          ${ instance.text.pk }
-          <span class="badge badge-primary" title="${ instance.text.pk_badge }">PK</span>
+      <!-- oid -->
+      <div class="form-group" title="${ instance.text.oid }">
+        <input type="checkbox" name="oid" id="key-oid">
+        <label class="form-check-label pl-1" for="key-oid">
+          ${ instance.text.oid }
+          <span class="badge badge-primary" title="${ instance.text.oid_badge }">OID</span>
         </label>
       </div>
 
       <!-- Foreign Key -->
-      <div class="form-group" title="${ instance.text.fk_input }">
-        <input type="checkbox" name="fk" id="key-fk" .disabled=${ !addableForeignKey( section.input.keys, table ) }>
-        <label class="form-check-label pl-1" for="key-fk">
-          ${ instance.text.fk }
-          <span class="badge badge-warning" title="${ instance.text.fk_badge }">FK</span>
-        </label>
-      </div>
-
-      <!-- Referenz -->
-      <div class="form-group" title="${ instance.text.refo_input }">
-        <input type="checkbox" name="refo" id="key-refo" .disabled=${ !addableForeignKey( section.input.keys, table ) }>
-        <label class="form-check-label pl-1" for="key-refo">
-          ${ instance.text.refo }
-          <span class="badge badge-danger" title="${ instance.text.refo_badge }">REF</span>
+      <div class="form-group" title="${ instance.text.oref_input }">
+        <input type="checkbox" name="oref" id="key-oref" .disabled=${ !addableForeignKey( section.input.keys, table ) }>
+        <label class="form-check-label pl-1" for="key-oref">
+          ${ instance.text.oref }
+          <span class="badge badge-warning" title="${ instance.text.oref_badge }">REF</span>
         </label>
       </div>
 
@@ -471,21 +459,48 @@ export function addKeyForm( instance, section, table, onSubmit ) {
         </label>
       </div>
 
+      <!-- Referenced Table/Typ -->
+      <div id="ref_select" class="form-group" title="${ instance.text.ref_select_input }">
+        <label for="key-ref-select">${ instance.text.ref_select }</label>
+        <select class="form-control" name="table" id="key-ref-select">
+          ${ tables.map( table => html`<option value="${ table }">${ section && section.relationship[ table ] }</option>` ) }
+        </select>
+      </div>
+
       <!--Mengenwertigesatrebut -->
       <div class="form-group" title="${ instance.text.ma_input }">
         <input type="checkbox" name="ma" id="key-ma" .disabled=${ !addableForeignKey( section.input.keys, table ) }>
         <label class="form-check-label pl-1" for="key-ma">
           ${ instance.text.ma }
-          <span class="badge badge-info" title="${ instance.text.ma_badge }">[ ]</span>
+          <span id="maspan" for="key-maspan" class="badge badge-info" title="${ instance.text.ma_badge }">[0-N]</span>
+          <select name="maselect" id="key-maselect" for="key-maselect">
+            <option value="0-N">0-N</option>
+            <option value="1-N">1-N</option>
+          </select>
         </label>
       </div>
 
-      <!-- Referenced Table/Typ -->
-      <div id="ref_table" class="form-group" title="${ instance.text.ref_table_input }">
-        <label for="key-fk-table">${ instance.text.ref_table }</label>
-        <select class="form-control" name="table" id="key-fk-table">
-          ${ tables.map( table => html`<option value="${ table }">${ section && section.relationship[ table ] }</option>` ) }
-        </select>
+      <!-- Bedingungen -->
+      <div class="form-group"">
+        <h5>${ instance.text.bedingung }</h5>
+      </div>
+
+      <!-- Redundanzkontrolle Attribute -->
+      <div class="form-group" title="${ instance.text.redundanz_input }">
+        <input type="checkbox" name="redundanz" id="key-redundanz">
+        <label class="form-check-label pl-1" for="key-redundanz">
+          ${ instance.text.redundanz }
+          <span class="badge badge-secondary" title="${ instance.text.opt_badge }">R!</span>
+        </label>
+      </div>
+
+      <!-- Eindeutig Attribute -->
+      <div class="form-group" title="${ instance.text.unique_input }">
+        <input type="checkbox" name="unique" id="key-unique">
+        <label class="form-check-label pl-1" for="key-unique">
+          ${ instance.text.unique }
+          <span class="badge badge-secondary" title="${ instance.text.unique_badge }">U!</span>
+        </label>
       </div>
 
       <!-- Optional Attribute -->
@@ -501,7 +516,6 @@ export function addKeyForm( instance, section, table, onSubmit ) {
   `;
 
 }
-
 /**
  * checks for a relational scheme table whether there is at least one other table that could be referenced with a foreign key
  * @param {(string|boolean)[]} keys - key attributes of the tables
