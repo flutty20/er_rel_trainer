@@ -227,8 +227,7 @@
             false,  // foreign key to right table
             false,  // artificial primary key
             false   // Table or Typ
-            //false,  // artificial primary key
-            //false,  // bedingung r! = 
+
           ];
           render();
         },
@@ -245,7 +244,15 @@
             false,  // foreign key to middle table
             false,  // foreign key to right table
             false,   // artificial primary key
-            true   // Table or Typ
+            true,   // Table or Typ
+            
+              {
+                ref_tab:false,
+                name:false,
+                me:false,
+                be:false,
+              }
+
             
           ];
           render();
@@ -306,10 +313,30 @@
             
             if ( key.oid )
               phrase.input.keys[ table ][ 3 ] = true;  // artificial oid
-            if ( key.oref )
-              phrase.input.keys[ table ][ key.table ] = key.oid && 'oid' || key.opt && 'opt' || 'oref';  // referenz
-            if ( key.eb )
-              phrase.input.keys[ table ][ key.table ] = key.oid && 'oid' || key.opt && 'opt' || 'eb';  // referenz
+            if ( key.oref ){
+              phrase.input.keys[ table ][5].ref_tab = key.table;  // referenz
+              phrase.input.keys[ table ][5].name = 'oref';  // referenz
+              phrase.input.keys[ table ][ key.table ] = 'oref';
+            }
+            if ( key.oref&&key.eb ){
+              phrase.input.keys[ table ][5].ref_tab = key.table;
+              phrase.input.keys[ table ][5].name = 'oref-eb';  // referenz
+              phrase.input.keys[ table ][ key.table ] = 'oref-eb';
+            }
+            if ( key.eb ){
+              phrase.input.keys[ table ][5].ref_tab = key.table;
+              phrase.input.keys[ table ][5].name = 'eb';  // referenz
+              phrase.input.keys[ table ][ key.table ] = 'eb';  // referenz
+            }
+            if ( key.ma ){
+              phrase.input.keys[ table ][5].me = key.maselect;  // referenz
+            }
+            if ( key.redundanz ){
+              phrase.input.keys[ table ][5].be = 'r';  // referenz
+            }
+            if ( key.unique ){
+              phrase.input.keys[ table ][5].be = 'u';  // referenz
+            }
 
             modal.close(); render();
           };
