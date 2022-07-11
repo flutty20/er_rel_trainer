@@ -21,7 +21,7 @@
         "format": "svg",
         "images": [ "e", "1", "c", "n", "cn", "r" ],
         "left": "copied",
-        "notation": "uml",
+        "notation": "abrial",
         "path": "./resources/img/"
       },
       "helper": [ "ccm.load", { "url": "./libs/ccm/helper.js", "type": "module" } ],
@@ -178,15 +178,16 @@
         // set initial app state data for current phrase
         data.sections.push( {
           input: {
-            keys: [ null, null, null ],  // no tables
+            keys: [ null, null, null],  // no tables
             arrows: [                    // no arrows
-              [ false, false, false ],
-              [ false, false, false ],
-              [ false, false, false ]
+              [ '0', '0', '0'],
+              [ '0', '0', '0'],
+              [ '0', '0', '0']
             ]
           },
           relationship: phrases[ 0 ].relationship,
           solution: phrases[ 0 ].solution,
+          esolution: phrases[ 0 ].esolution,
           text: phrases[ 0 ].text
         } );
 
@@ -226,8 +227,24 @@
             false,  // foreign key to middle table
             false,  // foreign key to right table
             false,  // artificial primary key
-            false   // Table or Typ
-
+            false,   // isTyp
+            [
+              {
+                name:false,
+                me:false,
+                be:false
+               },
+              {
+                name:false,
+                me:false,
+                be:false
+              },
+              {
+                name:false,
+                me:false,
+                be:false
+               }
+            ] 
           ];
           render();
         },
@@ -244,16 +261,24 @@
             false,  // foreign key to middle table
             false,  // foreign key to right table
             false,   // artificial primary key
-            true,   // Table or Typ
-            
+            true,   // isTyp
+            [
               {
-                ref_tab:false,
                 name:false,
                 me:false,
-                be:false,
-              }
-
-            
+                be:false
+               },
+              {
+                name:false,
+                me:false,
+                be:false
+              },
+              {
+                name:false,
+                me:false,
+                be:false
+               }
+            ] 
           ];
           render();
         },
@@ -273,6 +298,8 @@
           // remove table and any foreign keys in other tables that reference that table
           keys[ table ] = null;
           keys.forEach( orefs => orefs && ( orefs[ table ] = false ) );
+
+          keys.forEach( orefs => orefs && ( orefs[5][ table ] = {name:false,me:false,be:false} ) );
 
           render();
         },
@@ -310,32 +337,31 @@
             const key = $.formData( modal.element.querySelector( 'form' ) );
 
             // add key attribute in table
-            
-            if ( key.oid )
+            if ( key.oid ){
               phrase.input.keys[ table ][ 3 ] = true;  // artificial oid
-            if ( key.oref ){
-              phrase.input.keys[ table ][5].ref_tab = key.table;  // referenz
-              phrase.input.keys[ table ][5].name = 'oref';  // referenz
-              phrase.input.keys[ table ][ key.table ] = 'oref';
+
+
+              if(key.oref){
+                phrase.input.keys[ table ][5][key.table].name = 'oid';  // referenz
+                phrase.input.keys[ table ][key.table] = 'oid';
+              }
+            }  
+            if ( key.oref && !key.oid){
+              phrase.input.keys[ table ][5][key.table].name = 'oref';  // referenz
+              phrase.input.keys[ table ][key.table] = 'oref';
             }
-            if ( key.oref&&key.eb ){
-              phrase.input.keys[ table ][5].ref_tab = key.table;
-              phrase.input.keys[ table ][5].name = 'oref-eb';  // referenz
-              phrase.input.keys[ table ][ key.table ] = 'oref-eb';
+            if ( key.eb && !key.oid){
+              phrase.input.keys[ table ][5][key.table].name = 'eb';  // referenz
+              phrase.input.keys[ table ][key.table] = 'eb';  // referenz
             }
-            if ( key.eb ){
-              phrase.input.keys[ table ][5].ref_tab = key.table;
-              phrase.input.keys[ table ][5].name = 'eb';  // referenz
-              phrase.input.keys[ table ][ key.table ] = 'eb';  // referenz
+            if ( key.maselect  && (key.oref||key.eb) ){
+              phrase.input.keys[ table ][5][key.table].me = key.maselect;  // referenz
             }
-            if ( key.ma ){
-              phrase.input.keys[ table ][5].me = key.maselect;  // referenz
-            }
-            if ( key.redundanz ){
-              phrase.input.keys[ table ][5].be = 'r';  // referenz
+            if ( key.redundanz){
+              phrase.input.keys[ table ][5][key.table].be = 'r';  // referenz
             }
             if ( key.unique ){
-              phrase.input.keys[ table ][5].be = 'u';  // referenz
+              phrase.input.keys[ table ][5][key.table].be = 'u';  // referenz
             }
 
             modal.close(); render();
@@ -346,11 +372,9 @@
 
           const oid = modal.element.querySelector( '#key-oid' );                            // checkbox for primary key
           const oref = modal.element.querySelector( '#key-oref' );                            // checkbox for foreign key
-          const opt = modal.element.querySelector( '#key-opt' );                          // checkbox for optional attribute
           const ref_select = modal.element.querySelector( '#key-ref-select' );                     // selector box for selecting the table referenced by the foreign key
           //new
           const eb = modal.element.querySelector( '#key-eb' );                            // checkbox for Einbettung
-          const ma = modal.element.querySelector( '#key-ma' );
           const maspan = modal.element.querySelector( '#maspan' );                        // checkbox for Mengenwertigesatrebut
           const maselect = modal.element.querySelector( '#key-maselect' );                            // select for Mengenwertigesatrebut
           const unique = modal.element.querySelector( '#key-unique' );                            // checkbox for Einbettung
@@ -363,62 +387,55 @@
           checkboxes.forEach( checkbox => checkbox.checked = false );
           modal.element.querySelectorAll( 'option' ).forEach( option => option.selected = false );
 
-          oid.disabled = phrase.input.keys[ table ][ 3 ];  // enable checkbox for primary key
+          //oid.disabled = phrase.input.keys[ table ][ 3 ];  // enable checkbox for primary key
           ref_select.disabled = true;     // disable selector box for selecting the table referenced by the foreign key
-          ma.disabled = true;
           maselect.disabled = true;
           unique.disabled = true;   // disable checkbox for Eindeuti attribute
           redundanz.disabled = true;// disable checkbox for Redundanzkontrolle attribute
-          opt.disabled = true;     // disable checkbox for optional attribute
           submit.disabled = true;  // disable submit button of the web form
 
           // listen to change event of checkbox for primary key
           oid.addEventListener( 'change', event => {
-            opt.disabled = event.target.checked || !oref.checked;  // a primary key cannot also be an optional attribute
             submit.disabled = !oid.checked && !oref.checked;        // the key attribute must be either a primary key or a foreign key
+            eb.checked = false;
           } );
 
           // listen to change event of checkbox for foreign key
           oref.addEventListener( 'change', event => {
-            oid.disabled = !event.target.checked && phrase.input.keys[ table ][ 3 ];  // a foreign key can be a primary key
+              // a foreign key can be a primary key
             ref_select.disabled = !event.target.checked;                // the referenced table can only be selected for a foreign key
-            opt.disabled = !event.target.checked || oid.checked;  // only a foreign key can be a optional key
             submit.disabled = !oid.checked && !oref.checked;        // the key attribute must be either a primary key or a foreign key
-            ma.disabled = !event.target.checked;
+            maselect.disabled = !event.target.checked;
             eb.checked = false;
+            unique.disabled = !event.target.checked;   // disable checkbox for Eindeuti attribute
+            redundanz.disabled = !event.target.checked;
+          } );
 
-            // foreign key has been unchecked?
-            if ( !event.target.checked ) {
-              opt.checked = false;          // uncheck optional attribute
-            }
+          eb.addEventListener( 'change', event => {
+            maselect.disabled = !event.target.checked;
+            ref_select.disabled = !event.target.checked;
+            oref.checked = false;
+            submit.disabled = !event.target.checked;
+            oid.checked = false;
+            unique.disabled = !event.target.checked;   // disable checkbox for Eindeuti attribute
+            redundanz.disabled = !event.target.checked;
           } );
 
           // listen to change event of checkbox for foreign key
-          ma.addEventListener( 'change', event => {
-            maselect.disabled = !event.target.checked;  // a foreign key can be a primary key
-            unique.disabled = !event.target.checked;
-          } );
 
           // listen to change event of checkbox for foreign key
           maselect.addEventListener( 'change', event => {
             var elem = maselect.value;
-            maspan.innerText = "["+elem+"]";  // a foreign key can be a primary key
+            maspan.innerText = "["+elem.toUpperCase()+"]";  // a foreign key can be a primary key
           } );
 
-          eb.addEventListener( 'change', event => {
-            ma.disabled = !event.target.checked;
-            ref_select.disabled = !event.target.checked;
-            oref.checked = false;
-            submit.disabled = !event.target.checked;
-            
-            
-          } );
+          unique.addEventListener( 'change', event => {
+            redundanz.checked = false;
+          });
 
-          // listen to change event of checkbox for optional attribute
-          opt.addEventListener( 'change', event => {
-            oid.disabled = event.target.checked;       // a optional attribute cannot be a primary key
-          } );
-
+          redundanz.addEventListener( 'change', event => {
+            unique.checked = false;
+          });
           modal.open();
         },
 
@@ -435,13 +452,23 @@
           if ( to === false ) {
             keys[ from ][ 3 ] = false;                              // remove artificial primary key
             keys.forEach( orefs => orefs && ( orefs[ from ] = false ) );  // remove any foreign keys in other tables that reference that table
+            keys[from][5].map( ( key, i ) => i < 3 && key.name === 'oid' ? key.name = 'oref':'');
+            for (let i = 0; i < 3; i++) {
+              keys[from][i]==='oid'?keys[from][i]='oref':'';
+            }
+            
+
           }
           // is foreign key => remove key and corresponding arrowheads
           else {
             keys[ from ][ to ] = false;
+            if(keys[from][5] !== false){ 
+              keys[from][5][to] = { name:false, me:false, be:false};
+            }
             if ( !keys[ to ][ from ] ) {
-              data.sections[ phrase_nr - 1 ].input.arrows[ from ][ to ] = false;
-              data.sections[ phrase_nr - 1 ].input.arrows[ to ][ from ] = false;
+              data.sections[ phrase_nr - 1 ].input.arrows[ from ][ to ] = '0';
+              data.sections[ phrase_nr - 1 ].input.arrows[ to ][ from ] = '0';
+
             }
           }
 
@@ -450,7 +477,7 @@
 
         /** when an arrowhead is changed */
         onArrowChange: event => {
-          data.sections[ phrase_nr - 1 ].input.arrows[ event.target.dataset.from ][ event.target.dataset.to ] = !!parseInt( event.target.value );
+          data.sections[ phrase_nr - 1 ].input.arrows[ event.target.dataset.from ][ event.target.dataset.to ] = event.target.value;
           render();
         },
 
@@ -458,7 +485,7 @@
         onCancelButton: () => this.oncancel && this.oncancel( this, phrase_nr ),
 
         /** when 'submit' button is clicked */
-        onSubmitButton: () => {
+        onSubmitButtonAlt: () => {
 
           // analyse solution data of current phrase
           const section = data.sections[ phrase_nr - 1 ];
@@ -481,6 +508,123 @@
               [ false, false, ( !single_left || !( left === '1' && right === 'c' ) ) && single_right ],
               [ multi, false, multi ],
               [ single_left && ( !single_right || ( left === '1' && right === 'c' ) ), false, false ]
+            ]
+          };
+
+          // compare current app state data of current phrase with correct solution
+          section.correct = JSON.stringify( section.input ) === JSON.stringify( section.feedback );
+          section.correct && data.correct++;
+
+          // no feedback? => show directly the next phrase
+          if ( !this.feedback ) return events.onNextButton();
+
+          // show visual feedback
+          this.element.classList.add( section.correct ? 'correct' : 'failed' );
+          render();
+        },
+        onSubmitButton: () => {
+
+          // analyse solution data of current phrase
+          const section = data.sections[ phrase_nr - 1 ];
+          const left = section.solution[ 0 ];
+          const right = section.solution[ 1 ];
+          const single_left = left === 'c' || left === '1';
+          const single_right = right === 'c' || right === '1';
+         
+          const oref_l2r = single_right && !( left === '1' && right === 'c' ) ? ( right === 'c' ? 'opt' : ( single_left ? 'oid' : 'oref' ) ) : false;
+          const oref_r2l = single_left && right !== '1' ? ( left === 'c' ? 'opt' : ( single_right ? 'oid': 'oref' ) ) : false;
+
+          const eleft = section.esolution[ 0 ].length>0?{
+            position:section.esolution[ 0 ].charAt(0),
+            einbettung:section.esolution[ 0 ].charAt(1),
+            min:section.esolution[ 0 ].charAt(2),
+            max:section.esolution[ 0 ].charAt(3),
+            bedingug:section.esolution[ 0 ].length==5?section.esolution[ 0 ].charAt(4):false
+          } :false;
+          const emiddel = section.esolution[ 1 ].length>0?section.esolution[ 1 ]:false;
+          const eright = section.esolution[ 2 ].length>0?{
+            position:section.esolution[ 2 ].charAt(0),
+            einbettung:section.esolution[ 2 ].charAt(1),
+            min:section.esolution[ 2 ].charAt(2),
+            max:section.esolution[ 2 ].charAt(3),
+            bedingug:section.esolution[ 2 ].length==5?section.esolution[ 2 ].charAt(4):false
+          } :false;
+
+
+          
+          const multi = ( left === 'cn' || left === 'n' ) && ( right === 'cn' || right === 'n' )&&emiddel ==='t';
+          // define correct solution for feedback
+          section.feedback = {
+            keys: [
+              [ eleft.position==='0'?eleft.einbettung==='e'?'eb':'oref':false,
+                eleft.position==='1'?eleft.einbettung==='e'?'eb':'oref':false,
+                eleft.position==='2'?eleft.einbettung==='e'?'eb':'oref':false,
+                true,
+                (eright.einbettung==='e'&&eright.position==='0')||(emiddel.einbettung==='e'&&emiddel.position==='0'),   // isTyp
+                [
+                  {
+                    name:false,
+                    me:false,
+                    be:false
+                  },
+                  {
+                    name: false,
+                    me:false,
+                    be:false
+                 },
+                  {
+                   name:eleft.position==='2'?eleft.einbettung==='e'?'eb':'oref':false,
+                   me:eleft.position==='2'?eleft.min+'-'+eleft.max:false,
+                   be:eleft.position==='2'?eleft.bedingug:false
+                  }
+              ]  ],
+              multi?  [ 'oid', false, 'oid', true,false,
+              [
+                {
+                  name:'oid',
+                  me:'1-1',
+                  be:false
+                },
+                {
+                  name:false,
+                  me:false,
+                  be:false
+               },
+               {
+                name:'oid',
+                me:'1-1',
+                be:false
+              }
+            ]
+            
+            ] : null,
+             [ eright.position==='0'?eright.einbettung==='e'?'eb':'oref':false,
+             eright.position==='1'?eright.einbettung==='e'?'eb':'oref':false,
+             eright.position==='2'?eright.einbettung==='e'?'eb':'oref':false,
+             true,
+             (eleft.einbettung==='e'&&eleft.position==='2')||(emiddel.einbettung==='e'&&emiddel.position==='2'),   // isTyp
+             [
+               {
+                 name:eright.position==='0'?eright.einbettung==='e'?'eb':'oref':false,
+                 me:eright.position==='0'?eright.min+'-'+eright.max:false,
+                 be:eright.position==='0'?eright.bedingug:false
+               },
+               {
+                 name: false,
+                 me:false,
+                 be:false
+              },
+               {
+                name:false,
+                me:false,
+                be:false
+               }
+           ]  ],
+            ],
+            arrows: [
+              [ '0', '0', eleft.position==='2' && eleft.einbettung==='r'? eleft.max === 'n'||'N'?'2':'1' :'0'],
+              [ multi?'1':'0' , '0', multi?'1':'0'],
+              [ eright.position==='0' && eright.einbettung==='r'? eright.max === 'n'||'N'?'3':'2' :'0', '0', '0' ]
             ]
           };
 

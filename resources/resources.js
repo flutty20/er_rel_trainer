@@ -15,7 +15,9 @@ export const config = {
   "number": 5,                          // Anzahl der Phrasen, die abgefragt werden.
   "retry": true,                        // "Korrigieren"-Button
   "show_solution": true,                // "Zeige Lösung"-Button
-  "shuffle": true                       // Phrasen mischen
+  "shuffle": true,                       // Phrasen mischen
+  "easymode": false,                     //berücksichtigt nur die solution //TODO
+  "bedingung":true                      //berücksichtigt bei der lösung die bedingung //TODO
 };
 
 /**
@@ -24,59 +26,71 @@ export const config = {
  */
 export const phrases = [
   {
-    "text": "Zu jedem Patienten gibt es eine Patientenakte.",
+    "text": "Zu jedem Patienten gibt es eine Patientenakte.(2e11u, , )",
     "relationship": [ "Patient", "hat", "Patientenakte" ],
-    "solution": [ "1", "1" ]
+    "solution": [ "1", "1" ],
+    "esolution":[ "2e11u", "", "" ] //2= rechte tabelle e= einbettung,11= muss beziehung u=eindeutig
   },
   {
-    "text": "Eine Stadt kann ein U-Bahnnetz haben.",
+    "text": "Eine Stadt kann ein U-Bahnnetz haben.(2r01r, , )",
     "relationship": [ "Stadt", "hat", "U-Bahnnetz" ],
-    "solution": [ "1", "c" ]
+    "solution": [ "1", "c" ],
+    "esolution":[ "2r01r", "", "" ]
   },
   {
-    "text": "Zu jedem Topf gibt es einen Deckel, es gibt allerdings auch Töpfe ohne Deckel (z.B. Wok).",
+    "text": "Zu jedem Topf gibt es einen Deckel, es gibt allerdings auch Töpfe ohne Deckel (z.B. Wok). (2e01u, , )",
     "relationship": [ "Topf", "hat", "Deckel" ],
-    "solution": [ "c", "1" ]
+    "solution": [ "c", "1" ],
+    "esolution":[ "2e01u", "", "" ]
   },
   {
-    "text": "Ein Planet kann Monde haben, die ihn umkreisen.",
+    "text": "Ein Planet kann Monde haben, die ihn umkreisen.(2r0nu, , )",
     "relationship": [ "Planet", "hat", "Mond" ],
-    "solution": [ "1", "cn" ]
+    "solution": [ "1", "cn" ],
+    "esolution":[ "2r0nu", "", "" ]
   },
   {
-    "text": "Ein Rucksack kann mehrere Gegenstände enthalten.",
+    "text": "Ein Rucksack kann mehrere Gegenstände enthalten.(2r0nu, , )",
     "relationship": [ "Rucksack", "enthält", "Gegenstand" ],
-    "solution": [ "c", "cn" ]
+    "solution": [ "c", "cn" ],
+    "esolution":[ "2r0nu", "", "" ]
   },
   {
-    "text": "Kunden kaufen Produkte.",
+    "text": "Kunden kaufen Produkte.(2r0n, , )",
     "relationship": [ "Kunde", "hat gekauft", "Produkt" ],
-    "solution": [ "cn", "cn" ]
+    "solution": [ "cn", "cn" ],
+    "esolution":[ "2r0n", "", "" ]
   },
   {
-    "text": "Ein Mensch kann keine, eine oder mehrere Staatsangehörigkeiten besitzen.",
+    "text": "Ein Mensch kann keine, eine oder mehrere Staatsangehörigkeiten besitzen.(2r0nr, , )",
     "relationship": [ "Mensch", "besitzt", "Staatsangehörigkeit" ],
-    "solution": [ "n", "cn" ]
+    "solution": [ "n", "cn" ],
+    "esolution":[ "2r0nr", "", "" ]
+  
   },
   {
-    "text": "Ein Buch hat mehrere Seiten.",
+    "text": "Ein Buch hat mehrere Seiten.(2e1nu, , )",
     "relationship": [ "Buch", "hat", "Seite" ],
-    "solution": [ "1", "n" ]
+    "solution": [ "1", "n" ],
+    "esolution":[ "2e1nu", "", "" ]
   },
   {
-    "text": "Ein Wald hat Bäume.",
+    "text": "Ein Wald hat Bäume.(2e1nu, , )",
     "relationship": [ "Wald", "hat", "Bäume" ],
-    "solution": [ "c", "n" ]
+    "solution": [ "c", "n" ],
+    "esolution":[ "2e1nu", "", "" ]
   },
   {
-    "text": "Auf einem Rezept stehen Zutaten.",
+    "text": "Auf einem Rezept stehen Zutaten.(2r1n, , )",
     "relationship": [ "Rezept", "hat", "Zutat" ],
-    "solution": [ "cn", "n" ]
+    "solution": [ "cn", "n" ],
+    "esolution":[ "2r1n", "", "" ]
   },
   {
-    "text": "Ein Haus hat Eigentümer und Eigentümer haben Häuser.",
+    "text": "Ein Haus hat Eigentümer und Eigentümer haben Häuser.(, t, )",//0r1n
     "relationship": [ "Haus", "hat", "Eigentümer" ],
-    "solution": [ "n", "n" ]
+    "solution": [ "n", "n" ],
+    "esolution":[ "", "t", "" ]
   }
 ];
 
@@ -150,8 +164,8 @@ export const text = {
   "eb":"Einbettung",
   "eb_input": "Geben Sie hier an, ob es sich um einen Einbettung handelt.",
   "eb_badge": "Einbettung: Ein eingebetterter typ versiert seine eigenstendigkeit",
-  "ma": "Mengenwertigesatrebut ",
-  "ma_input": "Geben Sie hier an, ob es sich um einen Mengenwertigesatrebut handelt.",
+  "ma": "Mengenwertigkeit ",
+  "ma_input": "Geben Sie hier die Mengenwertigkeit der beziehung an.",
   "ma_badge": "Mengenwertigesatrebut: ermöglicht es Arrys unter einem atribut zu verwalten.",
   "unique": "Eindeutigkeit",
   "unique_input": "Geben Sie hier an, ob es sich um einen Eindeutigesatrebut handelt.",
