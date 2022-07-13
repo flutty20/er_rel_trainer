@@ -219,7 +219,7 @@
          * when an 'add table' button is clicked
          * @param {number} table - table index (0: left, 1: middle, 2: right)
          */
-        onAddTable: table => {
+        onAddTable: (table,isTyp) => {
 
           // create empty table without any key attribute
           data.sections[ phrase_nr - 1 ].input.keys[ table ] = [
@@ -227,41 +227,7 @@
             false,  // foreign key to middle table
             false,  // foreign key to right table
             false,  // artificial primary key
-            false,   // isTyp
-            [
-              {
-                name:false,
-                me:false,
-                be:false
-               },
-              {
-                name:false,
-                me:false,
-                be:false
-              },
-              {
-                name:false,
-                me:false,
-                be:false
-               }
-            ] 
-          ];
-          render();
-        },
-
-                /**
-         * when an 'add table' button is clicked
-         * @param {number} table - table index (0: left, 1: middle, 2: right)
-         */
-        onAddTyp: table => {
-
-          // create empty table without any key attribute
-          data.sections[ phrase_nr - 1 ].input.keys[ table ] = [
-            false,  // foreign key to left table
-            false,  // foreign key to middle table
-            false,  // foreign key to right table
-            false,   // artificial primary key
-            true,   // isTyp
+            isTyp,   // isTyp
             [
               {
                 name:false,
@@ -485,54 +451,12 @@
         onCancelButton: () => this.oncancel && this.oncancel( this, phrase_nr ),
 
         /** when 'submit' button is clicked */
-        onSubmitButtonAlt: () => {
-
-          // analyse solution data of current phrase
-          const section = data.sections[ phrase_nr - 1 ];
-          const left = section.solution[ 0 ];
-          const right = section.solution[ 1 ];
-          const single_left = left === 'c' || left === '1';
-          const single_right = right === 'c' || right === '1';
-          const multi = ( left === 'cn' || left === 'n' ) && ( right === 'cn' || right === 'n' );
-          const oref_l2r = single_right && !( left === '1' && right === 'c' ) ? ( right === 'c' ? 'opt' : ( single_left ? 'oid' : 'oref' ) ) : false;
-          const oref_r2l = single_left && right !== '1' ? ( left === 'c' ? 'opt' : ( single_right ? 'oid': 'oref' ) ) : false;
-
-          // define correct solution for feedback
-          section.feedback = {
-            keys: [
-              [ false, false, oref_l2r, !( single_left && single_right && right !== 'c' ) ],
-              multi ? [ 'oid', false, 'oid', false ] : null,
-              [ oref_r2l, false, false, !( single_left && single_right && right === 'c' ) ]
-            ],
-            arrows: [
-              [ false, false, ( !single_left || !( left === '1' && right === 'c' ) ) && single_right ],
-              [ multi, false, multi ],
-              [ single_left && ( !single_right || ( left === '1' && right === 'c' ) ), false, false ]
-            ]
-          };
-
-          // compare current app state data of current phrase with correct solution
-          section.correct = JSON.stringify( section.input ) === JSON.stringify( section.feedback );
-          section.correct && data.correct++;
-
-          // no feedback? => show directly the next phrase
-          if ( !this.feedback ) return events.onNextButton();
-
-          // show visual feedback
-          this.element.classList.add( section.correct ? 'correct' : 'failed' );
-          render();
-        },
         onSubmitButton: () => {
 
           // analyse solution data of current phrase
           const section = data.sections[ phrase_nr - 1 ];
           const left = section.solution[ 0 ];
           const right = section.solution[ 1 ];
-          const single_left = left === 'c' || left === '1';
-          const single_right = right === 'c' || right === '1';
-         
-          const oref_l2r = single_right && !( left === '1' && right === 'c' ) ? ( right === 'c' ? 'opt' : ( single_left ? 'oid' : 'oref' ) ) : false;
-          const oref_r2l = single_left && right !== '1' ? ( left === 'c' ? 'opt' : ( single_right ? 'oid': 'oref' ) ) : false;
 
           const eleft = section.esolution[ 0 ].length>0?{
             position:section.esolution[ 0 ].charAt(0),
@@ -622,9 +546,9 @@
            ]  ],
             ],
             arrows: [
-              [ '0', '0', eleft.position==='2' && eleft.einbettung==='r'? eleft.max === 'n'||'N'?'2':'1' :'0'],
+              [ '0', '0', eleft.position==='2' && eleft.einbettung==='r'? eleft.max === 'n'|| eleft.max ==='N'?'2':'1' :'0'],
               [ multi?'1':'0' , '0', multi?'1':'0'],
-              [ eright.position==='0' && eright.einbettung==='r'? eright.max === 'n'||'N'?'3':'2' :'0', '0', '0' ]
+              [ eright.position==='0' && eright.einbettung==='r'? eright.max === 'n'||eright.max ==='N'?'2':'1' :'0', '0', '0' ]
             ]
           };
 

@@ -18,7 +18,7 @@ export function main(instance, state, phrase, phrase_nr, events) {
   const left = section.solution[0];                                                                   // left cardinality
   const right = section.solution[1];                                                                  // right cardinality
   const is_single = (left === 'c' || left === '1') && (right === 'c' || right === '1');             // is one-to-one relationship
-  const is_multi = (left === 'cn' || left === 'n') && (right === 'cn' || right === 'n');            // is many-to-many relationship
+  const is_multi = (left === 'cn' || left === 'n') && (right === 'cn' || right === 'n')&&section.esolution[1]==='t';            // is many-to-many relationship
 
   return html`
     <h1 class="mx-3">${instance.text.title}</h1> <!-- Title -->
@@ -145,16 +145,26 @@ export function main(instance, state, phrase, phrase_nr, events) {
         ${instance.feedback && section.feedback && is_multi && section.input.keys[1] && section.input.keys[1][0] && section.input.keys[1][2] && (section.input.keys[1][0] !== 'oid' || section.input.keys[1][2] !== 'oid') && phraseComment(instance.text.comment.missing_nm_oid, 0) || ''}
         ${instance.feedback && section.feedback && is_single && section.input.keys[0] && section.input.keys[2] && left === right && !section.input.keys[0][2] && phraseComment(instance.text.comment.missing_11_oref, 0) || ''}
         ${instance.feedback && section.feedback && is_single && section.input.keys[0] && section.input.keys[2] && left !== right && !section.input.keys[left === 'c' ? 0 : 2][left === 'c' ? 2 : 0] && phraseComment(instance.text.comment.missing_1c_oref, left === 'c' ? 0 : 2) || ''}
-        ${instance.feedback && section.feedback && !is_single && !is_multi && section.input.keys[0] && section.input.keys[2] && !section.input.keys[left === 'c' || left === '1' ? 2 : 0][left === 'c' || left === '1' ? 0 : 2] && phraseComment(instance.text.comment.missing_1n_oref, left === 'c' || left === '1' ? 2 : 0) || ''}
         ${instance.feedback && section.feedback && is_single && section.input.keys[0] && section.input.keys[2] && section.input.keys[right === 'c' ? 2 : 0][right === 'c' ? 0 : 2] !== 'oid' && phraseComment(instance.text.comment.missing_11_unique, right === 'c' ? 2 : 0) || ''}
-        ${instance.feedback && section.feedback && !is_multi && section.input.keys[0] && section.input.keys[2] && !is_single && (left === 'c' || right === 'c') && section.input.keys[right === 'c' ? 0 : 2][right === 'c' ? 2 : 0] !== 'opt' && phraseComment(instance.text.comment.missing_opt, right === 'c' ? 0 : 2) || ''}
         ${instance.feedback && section.feedback && !is_multi && JSON.stringify(section.input.keys) === JSON.stringify(section.feedback.keys) && JSON.stringify(section.input.arrows) !== JSON.stringify(section.feedback.arrows) && phraseComment(instance.text.comment.missing_arrowhead, section.input.keys[0][2] ? 0 : 2) || ''}
-        ${instance.feedback && section.feedback && is_multi && section.input.keys[1] && section.input.keys[1][0] && section.input.keys[1][2] && JSON.stringify(section.input.arrows) !== JSON.stringify(section.feedback.arrows) && phraseComment(instance.text.comment.missing_arrowhead_nm, 0) || ''}
-        ${instance.feedback && section.feedback && left === '1' && right === '1' && JSON.stringify(section.input) === JSON.stringify(section.feedback) && phraseComment(instance.text.comment.mandatory_11, 0) || ''}
+        ${instance.feedback && section.feedback && is_multi && section.input.keys[1] && section.input.keys[1][0] && section.input.keys[1][2] && JSON.stringify(section.input.arrows) !== JSON.stringify(section.feedback.arrows) && phraseComment(instance.text.comment.missing_arrowhead_nm, 0) || ''}       
         ${instance.feedback && section.feedback && left === '1' && right === '1' && JSON.stringify(section.input) === JSON.stringify(section.feedback) && phraseComment(instance.text.comment.merge_11) || ''}
-        ${instance.feedback && section.feedback && !is_single && !is_multi && (left === 'n' || right === 'n') && JSON.stringify(section.input) === JSON.stringify(section.feedback) && phraseComment(instance.text.comment.mandatory_1n, left === 'n' ? 0 : 2) || ''}
-        ${instance.feedback && section.feedback && is_multi && (left === 'n' || right === 'n') && JSON.stringify(section.input) === JSON.stringify(section.feedback) && phraseComment(instance.text.comment.mandatory_nm, left === 'n' ? 0 : 2) || ''}
 
+
+        ${instance.feedback && section.feedback  && !is_multi && section.input.keys[0] && section.input.keys[2] && section.feedback.keys[0] && section.feedback.keys[2] && ((section.input.keys[0][2] !== section.feedback.keys[0][2] && section.input.keys[0][2] === section.feedback.keys[2][0])||(section.input.keys[2][0] !== section.feedback.keys[2][0] && section.input.keys[2][0] === section.feedback.keys[0][2]) )&& phraseComment(instance.text.comment.wrong_site, 0) || ''}
+
+        ${instance.feedback && section.feedback  && !is_multi && section.input.keys[0] && section.input.keys[2] && section.feedback.keys[0] && section.feedback.keys[2] && (section.input.keys[0][5][2].me !== section.feedback.keys[0][5][2].me|| section.input.keys[2][5][0].me !== section.feedback.keys[2][5][0].me)&& phraseComment(instance.text.comment.wrong_me, 0) || ''}
+        ${instance.feedback && section.feedback  && is_multi && section.input.keys[1] && section.feedback.keys[1]  && (section.input.keys[1][5][0].me !== '1-1'|| section.input.keys[1][5][2].me !== '1-1') && phraseComment(instance.text.comment.wrong_me_nm, 0) || ''}
+
+        ${instance.feedback && section.feedback  && !is_multi && section.input.keys[0] && section.input.keys[2] && section.feedback.keys[0] && section.feedback.keys[2] && ((section.input.keys[0][5][2].name ==='oref'  && section.feedback.keys[0][5][2].name === 'eb')|| (section.input.keys[2][5][0].name === 'oref' && section.input.keys[2][5][0].feedback === 'eb')) && phraseComment(instance.text.comment.wrong_eb, 0) || ''}
+        ${instance.feedback && section.feedback  && !is_multi && section.input.keys[0] && section.input.keys[2] && section.feedback.keys[0] && section.feedback.keys[2] && ((section.input.keys[0][5][2].name === 'eb' && section.feedback.keys[0][5][2].name === 'oref')|| (section.input.keys[2][5][0].name === 'eb' && section.input.keys[2][5][0].feedback === 'oref')) && phraseComment(instance.text.comment.wrong_oref, 0) || ''}
+       
+
+        ${instance.feedback && section.feedback && !is_multi  && section.input.keys[0] && section.input.keys[2] && section.feedback.keys[0] && section.feedback.keys[2] && (section.input.keys[0][4] !== section.feedback.keys[0][4]|| section.input.keys[2][4] !== section.feedback.keys[2][4]) && phraseComment(instance.text.comment.wrong_tab, 0) || ''}
+        ${instance.feedback && section.feedback && is_multi  && section.input.keys[0] && section.input.keys[1] && section.input.keys[2] && section.feedback.keys[0] && section.feedback.keys[1] && section.feedback.keys[2] && (section.input.keys[0][4] !== section.feedback.keys[0][4]||section.input.keys[1][4] !== section.feedback.keys[1][4]|| section.input.keys[2][4] !== section.feedback.keys[2][4]) && phraseComment(instance.text.comment.wrong_tab, 0) || ''}
+
+        ${instance.feedback && section.feedback  && !is_multi && section.input.keys[0] && section.input.keys[2] && section.feedback.keys[0] && section.feedback.keys[2] && (section.input.keys[0][5][2].be !== section.feedback.keys[0][5][2].be|| section.input.keys[2][5][0].be !== section.feedback.keys[2][5][0].be)&& phraseComment(instance.text.comment.wrong_be, 0) || ''}
+        ${instance.feedback && section.feedback  && is_multi && section.input.keys[1] && section.feedback.keys[1]  && (section.input.keys[1][5][0].be !== false|| section.input.keys[1][5][2].be !== false) && phraseComment(instance.text.comment.wrong_be, 0) || ''}
         <!-- Buttons -->
         <section class="d-flex justify-content-center flex-wrap px-2 py-3">
           <button class="btn btn-outline-danger m-1" @click=${events.onCancelButton} ?data-hidden=${!instance.oncancel}>${instance.text.cancel}</button>
@@ -185,9 +195,9 @@ export function main(instance, state, phrase, phrase_nr, events) {
   function addTableButton(table) {
     return html`
       <div class="text-${table === 0 ? 'left' : (table === 1 ? 'center px-2' : 'right')}">
-        <button class="btn btn-${section.feedback ? (section.feedback.keys[table] ? 'danger' : 'success') : 'primary'} btn-sm" @click=${() => events.onAddTable(table)} .disabled=${section.feedback} ?data-invisible=${input.keys[table] !== null}>+ "${section.relationship[table]}"${instance.text.table}</button>
+        <button class="btn btn-${section.feedback ? (section.feedback.keys[table] ? 'danger' : 'success') : 'primary'} btn-sm" @click=${() => events.onAddTable(table,false)} .disabled=${section.feedback} ?data-invisible=${input.keys[table] !== null}>+ "${section.relationship[table]}"${instance.text.table}</button>
         </br> </br>
-        <button class="btn btn-${section.feedback ? (section.feedback.keys[table] ? 'danger' : 'success') : 'primary'} btn-sm" @click=${() => events.onAddTyp(table)} .disabled=${section.feedback} ?data-invisible=${input.keys[table] !== null}>+ "${section.relationship[table]}"${instance.text.typ}</button>
+        <button class="btn btn-${section.feedback ? (section.feedback.keys[table] ? 'danger' : 'success') : 'primary'} btn-sm" @click=${() => events.onAddTable(table,true)} .disabled=${section.feedback} ?data-invisible=${input.keys[table] !== null}>+ "${section.relationship[table]}"${instance.text.typ}</button>
       </div>
     `;
   }
@@ -219,8 +229,8 @@ export function main(instance, state, phrase, phrase_nr, events) {
     const multi_oid = keys && ((keys[0] === 'oid') + (keys[1] === 'oid') + (keys[2] === 'oid')) > 0 && keys[3];
     return html`
       <div class="scheme border" ?data-invisible=${keys === null}>
-        <header class="bg-${section.feedback ? (section.feedback.keys[table] &&  section.feedback.keys[table][4] === section.input.keys[table][4] ? 'success' : 'danger') : section.input.keys[table] == null ? null : (section.input.keys[table][4] ? 'badge badge-info' : 'light')} border-bottom px-3 py-2 d-inline-flex justify-content-center align-items-center">
-          <span>${section.input.keys[table] == null ? null : (section.input.keys[table][4] ? 'Typ-' : 'Tabelle-')} ${section.relationship[table]} </span>
+        <header class="bg-${section.feedback ? (section.feedback.keys[table] && keys &&  section.feedback.keys[table][4] === keys[4] ? 'success' : 'danger') : keys == null ? null : (keys[4] ? 'badge badge-info' : 'light')} border-bottom px-3 py-2 d-inline-flex justify-content-center align-items-center">
+          <span>${keys === null ? null : (keys[4] ? 'Typ-' : 'Tabelle-')} ${section.relationship[table]} </span>
           <span class="icon" ?data-hidden=${!keys} @click=${() => events.onRemoveTable(table)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg text-danger ml-1" viewBox="0 0 16 16">
               <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
@@ -253,9 +263,9 @@ export function main(instance, state, phrase, phrase_nr, events) {
      */
     function attr(name, oid, oref, eb, me, redundanz, unique, tab, reftable) {
       return html`
-        <div class="attr p-1  ${eb || tab ? 'ml-3' : ''} d-flex align-items-center ${section.feedback && section.feedback.keys[table] ? (reftable !== false && keys[reftable] === section.feedback.keys[table][reftable] || reftable === false && oid && keys[3] === section.feedback.keys[table][3] ? 'bg-success' : 'bg-danger') : ''}">
+        <div class="attr p-1  ${eb || tab ? 'ml-3' : ''} d-flex align-items-center ${section.feedback && section.feedback.keys[table] ? (reftable !== false && keys[reftable] === section.feedback.keys[table][reftable] && keys[5][reftable].me === section.feedback.keys[table][5][reftable].me && keys[5][reftable].be === section.feedback.keys[table][5][reftable].be|| reftable === false && oid && keys[3] === section.feedback.keys[table][3] ? 'bg-success' : 'bg-danger') : ''}">
        
-        <span title="${instance.text.attr_name}">${name}</span>
+        <span title="${instance.text.attr_name}">${me==='0-n'||me==='1-n' ?'{'+name+'}':name}</span>
           ${oid && !multi_oid ? html`<span class="badge badge-primary" title="${instance.text.oid_badge}">OID</span>` : ''}
           ${oref ? html`<span class="badge badge-warning" title="${instance.text.oref_badge}">REF</span>` : ''}
           ${eb ? html`<span class="badge badge-info" title="${instance.text.eb_badge}">EB</span>` : ''}
@@ -545,9 +555,9 @@ function addableForeignKey(keys, table) {
   for (let i = 0; i <= 2; i++)      // check for each possible table:
     if (table !== i)                // - not the current table?
       if (keys[i])                // - table is created?
-        if (keys[i][3])         // - table has an artificial primary key?
-          if (!keys[table][i])  // - table is not already referenced by a foreign key in current table?
-            return true;              // => table is referencable with another foreign key
+        if (keys[i][3])           // - table has an artificial primary key?
+          if (!keys[table][i])    // - table is not already referenced by a foreign key in current table?
+              return true;              // => table is referencable with another foreign key
 
   return false;                       // => there is no other table that could be referenced with a foreign key
 }

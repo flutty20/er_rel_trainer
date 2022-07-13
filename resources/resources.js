@@ -26,37 +26,37 @@ export const config = {
  */
 export const phrases = [
   {
-    "text": "Zu jedem Patienten gibt es eine Patientenakte.(2e11u, , )",
+    "text": "Zu jedem Patienten gibt es eine Patientenakte.Die Patientenakte ist ein fester bestateil des Patienten(2e11u, , )",
     "relationship": [ "Patient", "hat", "Patientenakte" ],
     "solution": [ "1", "1" ],
-    "esolution":[ "2e11u", "", "" ] //2= rechte tabelle e= einbettung,11= muss beziehung u=eindeutig
+    "esolution":[ "2e11u", "", "" ] //2= ref tabelle, e= einbettung|| r=referenz ,11= 1-1 beziehung||1n= 1-n beziehung ||01= 0-1 beziehung ||0n= 0-n beziehung, u=eindeutig|| ''= keine bedingug|| r=Redundanzkontrolle
   },
   {
-    "text": "Eine Stadt kann ein U-Bahnnetz haben.(2r01r, , )",
+    "text": "Eine Stadt kann ein U-Bahnnetz haben.Außerdem ist es möglich dem U-Bahnnetz U-Bahnen hinzuzufügen(2r01r, , )",
     "relationship": [ "Stadt", "hat", "U-Bahnnetz" ],
     "solution": [ "1", "c" ],
     "esolution":[ "2r01r", "", "" ]
   },
   {
-    "text": "Zu jedem Topf gibt es einen Deckel, es gibt allerdings auch Töpfe ohne Deckel (z.B. Wok). (2e01u, , )",
+    "text": "Zu jedem Deckel gibt es einen Topf, es gibt allerdings auch Töpfe ohne Deckel (z.B. Wok).Der Deckel muss nicht eigenständig sein (2e01u, , )",
     "relationship": [ "Topf", "hat", "Deckel" ],
-    "solution": [ "c", "1" ],
+    "solution": [ "1", "c" ],
     "esolution":[ "2e01u", "", "" ]
   },
   {
-    "text": "Ein Planet kann Monde haben, die ihn umkreisen.(2r0nu, , )",
+    "text": "Ein Planet kann Monde haben, die ihn umkreisen.Jeder Mond soll selbständig bleiben(2r0nu, , )",
     "relationship": [ "Planet", "hat", "Mond" ],
     "solution": [ "1", "cn" ],
     "esolution":[ "2r0nu", "", "" ]
   },
   {
-    "text": "Ein Rucksack kann mehrere Gegenstände enthalten.(2r0nu, , )",
+    "text": "Ein Rucksack kann mehrere Gegenstände enthalten.Es soll auf die Gegenstände referenziert werden(2r0nu, , )",
     "relationship": [ "Rucksack", "enthält", "Gegenstand" ],
     "solution": [ "c", "cn" ],
     "esolution":[ "2r0nu", "", "" ]
   },
   {
-    "text": "Kunden kaufen Produkte.(2r0n, , )",
+    "text": "Kunden kaufen Produkte.Nicht nur Kunden sondern auch Angestellte können Produckte Kaufen(2r0n, , )",
     "relationship": [ "Kunde", "hat gekauft", "Produkt" ],
     "solution": [ "cn", "cn" ],
     "esolution":[ "2r0n", "", "" ]
@@ -69,25 +69,25 @@ export const phrases = [
   
   },
   {
-    "text": "Ein Buch hat mehrere Seiten.(2e1nu, , )",
+    "text": "Ein Buch hat mehrere Seiten.Eine seite soll nur über das Buch erreichbar sein(2e1nu, , )",
     "relationship": [ "Buch", "hat", "Seite" ],
     "solution": [ "1", "n" ],
     "esolution":[ "2e1nu", "", "" ]
   },
   {
-    "text": "Ein Wald hat Bäume.(2e1nu, , )",
-    "relationship": [ "Wald", "hat", "Bäume" ],
+    "text": "Ein Wald besteht aus Bäume.(2e1nu, , )",
+    "relationship": [ "Wald", "besteht aus", "Bäume" ],
     "solution": [ "c", "n" ],
     "esolution":[ "2e1nu", "", "" ]
   },
   {
-    "text": "Auf einem Rezept stehen Zutaten.(2r1n, , )",
+    "text": "Auf einem Rezept stehen Zutaten.Die Tabelle der Zutaten wir noch von andern Tabellen benötigt (2r1n, , )",
     "relationship": [ "Rezept", "hat", "Zutat" ],
     "solution": [ "cn", "n" ],
     "esolution":[ "2r1n", "", "" ]
   },
   {
-    "text": "Ein Haus hat Eigentümer und Eigentümer haben Häuser.(, t, )",//0r1n
+    "text": "Ein Haus hat Eigentümer und Eigentümer haben Häuser. Es soll über eine Traditionelle Relationale N-M beziehung gelöst weredn (, t, )",
     "relationship": [ "Haus", "hat", "Eigentümer" ],
     "solution": [ "n", "n" ],
     "esolution":[ "", "t", "" ]
@@ -107,24 +107,28 @@ export const text = {
   "comment": {
     "create_tables": "Hinweis: Legen Sie mit Hilfe der Buttons die nötigen Tabellen oder Typen an.",
     "add_keys": "Hinweis: Ergänzen Sie in jeder angelegten Objekt die erforderlichen Attribute.",
-    "missing_arrow": "Hinweis: Setzen Sie für die Verbindungslinie zwischen zwei Objekten die Pfeilspitzen, um die Richtung festzulegen, in der die Objekte miteinander in Beziehung stehen.",
+    "missing_arrow": "Hinweis: Setzen Sie für die Verbindungslinie zwischen zwei Objekten die Pfeilspitzen, um die Richtung und Mengenwertigkeit festzulegen, in der die Objekte miteinander in Beziehung stehen.",
     "missing_entity_table": "Hinweis: Für jede der beiden Entitäten muss eine Objekt erstellt werden.",
     "missing_entity_oid": "Hinweis: Jede der Objekt benötigt einen Objektidentifikator.",
-    "no_nm_table": "Hinweis: Die mittlere \"%middle%\"-Tabelle wird nur bei einer N:M-Beziehung benötigt.",
-    "missing_nm_table": "Hinweis: Da es sich um eine N:M-Beziehung handelt, wird eine \"%middle%\"-Tabelle benötigt.",
+    "no_nm_table": "Hinweis: Die mittlere \"%middle%\"-Tabelle wird nur bei einer traditionellen N:M-Beziehung benötigt.",
+    "missing_nm_table": "Hinweis: Da es sich um eine traditionelle N:M-Beziehung handelt, wird eine \"%middle%\"-Tabelle benötigt.",
     "missing_nm_oref": "Hinweis: Die \"%middle%\"-Tabelle benötigt zwei Referenzen die jeweils auf eine der beiden Entitätstabellen verweisen.",
     "missing_nm_oid": "Hinweis: Damit jede Kombination aus \"%oref%\" und \"%noref%\" nur einmal vorkommen kann, müssen in der \"%middle%\"-Tabelle die beiden Referenzen einen zusammengesetzten Objektidentifikator bilden.",
-    "missing_11_oref": "Hinweis: Wenn bei einer 1:1-Beziehung beide Entitäten über exakt identische Kardinalitäten verfügen, wird eine Referenz bei der Hauptentität (hier \"%oref%\") hinzugefügt. Die Hauptentität (hier immer auf der linken Seite) ist die Entität, auf die in der zukünftigen Anwendung in der Regel zuerst zugegriffen wird.",
+    "missing_11_oref": "Hinweis: Wenn bei einer 1:1-Beziehung beide Entitäten über exakt identische Kardinalitäten verfügen, wird eine Referenz oder Einbettung bei der Hauptentität (hier \"%oref%\") hinzugefügt. Die Hauptentität (hier immer auf der linken Seite) ist die Entität, auf die in der zukünftigen Anwendung in der Regel zuerst zugegriffen wird.",
     "missing_1c_oref": "Hinweis: Wenn bei einer 1:1-Beziehung beide Entitäten über unterschiedliche Kardinalitäten verfügen, wird die Referenz bei der schwächeren Entität (hier \"%oref%\") hinzugefügt. Eine Entität ist eine schwache Entität, wenn ihre Existenz von der jeweils anderen Entität abhängt.",
-    "missing_1n_oref": "Hinweis: Bei einer 1:N-Beziehung wird die Referenz bei der einfachen Entität (hier \"%oref%\") hinzugefügt. Eine einfache Entität ist die Entität, die höchstens einmal mit der jeweils anderen Entität verbunden ist.",
     "missing_11_unique": "Hinweis: Bei einer 1:1-Beziehung muss die Referenz eindeutig sein, damit nicht mehrere Datensätze von \"%oref%\" über die Referenz auf denselben \"%noref%\"-Datensatz verweisen können.",
-    "missing_opt": "Hinweis: Da ein \"%oref%\"-Datensatz auch keinen zugehörigen \"%noref%\"-Datensatz haben kann, muss die Referenz optional sein.",
-    "missing_arrowhead": "Hinweis: Da die Referenz bei \"%oref%\" gesetzt ist und auf \"%noref%\" verweist, geht der Pfeil von \"%oref%\" nach \"%noref%\".",
-    "missing_arrowhead_nm": "Hinweis: Da die beiden Referenzen der \"%middle%\"-Tabelle auf die beiden äußeren Objekte \"%oref%\" und \"%noref%\" verweisen, gehen die Pfeile von der mittleren Tabelle zu den äußeren Objekte.",
-    "mandatory_11": "Anmerkung: Es kann vorkommen, dass es einen \"%noref%\"-Datensatz gibt, zu dem kein \"%oref%\"-Datensatz existiert, der über die Referenz auf den \"%noref%\"-Datensatz verweist. Das es zu jedem \"%noref%\"-Datensatz immer genau einen \"%oref%\"-Datensatz gibt, lässt sich hier im relationalen Schema nicht darstellen. Dies muss später in der Datenbank mit anderen Mitteln sichergestellt werden.",
-    "mandatory_1n": "Anmerkung: Es kann vorkommen, dass es einen \"%noref%\"-Datensatz gibt, zu dem kein \"%oref%\"-Datensatz existiert, der über die Referenz auf den \"%noref%\"-Datensatz verweist. Das es zu jedem \"%noref%\"-Datensatz immer mindestens einen \"%oref%\"-Datensatz gibt, lässt sich hier im relationalen Schema nicht darstellen. Dies muss später in der Datenbank mit anderen Mitteln sichergestellt werden.",
-    "mandatory_nm": "Anmerkung: Es kann vorkommen, dass es einen \"%noref%\"-Datensatz gibt, zu dem in der \"%middle%\"-Tabelle kein Datensatz existiert, der dem \"%noref%\"-Datensatz einen \"%oref%\"-Datensatz zuordnet. Das es zu jedem \"%noref%\"-Datensatz immer mindestens einen zugehörigen \"%oref%\"-Datensatz gibt, lässt sich hier im relationalen Schema nicht darstellen. Dies muss später in der Datenbank mit anderen Mitteln sichergestellt werden.",
-    "merge_11": "Anmerkung: In der Praxis werden 1:1-Beziehungen häufig zu einer Objekt zusammengefasst."
+    "missing_arrowhead": "Hinweis: Da die Referenz oder Einbettung bei \"%oref%\" gesetzt ist und auf \"%noref%\" verweist, geht der Pfeil von \"%oref%\" nach \"%noref%\". Achte darauf ob es eine Mege oder ein einzelnes objekt ist",
+    "missing_arrowhead_nm": "Hinweis: Da die beiden Referenzen der \"%middle%\"-Tabelle auf die beiden äußeren Tabellen \"%oref%\" und \"%noref%\" verweisen, gehen die Pfeile von der mittleren Tabelle zu den äußeren Objekte.",
+
+    "merge_11": "Anmerkung: In der Praxis werden 1:1-Beziehungen häufig zu einer Objekt zusammengefasst.",
+
+    "wrong_me":"Hinweis: Es liegt ein Fehler an der Mengenwertigkeit vor übernimm die Mengenwertigkeit aus dem ER-Diagramm",
+    "wrong_me_nm":"Hinweis: Es liegt ein Fehler an der Mengenwertigkeit vor Die Traditionelle Relationale lösung verwendet 1-1 Mengen",
+    "wrong_oref":"Hinweis: Anhand der Aufgabenstellung erkennt man das es sich um eine referen und nicht um eine einbettung handelt",
+    "wrong_eb":"Hinweis: Anhand der Aufgabenstellung erkennt man das es sich um eine einbettung und nicht um eine referenz handelt",
+    "wrong_tab":"Hinweis: Reverenzen verweisen auf Tabellen, Einbettungen betten Typen ein ",
+    "wrong_be":"Hinweis: Die Bedingung ist falsch gesetzt ",
+    "wrong_site":"Hinweis die referen oder einbettung befindet sich nicht in der Hauptentität "
   },
   "comment_prefix": "Richtig! Hier noch ein paar ergänzende Hinweise:",
   "correct": "Ihre Antwort war richtig!",
