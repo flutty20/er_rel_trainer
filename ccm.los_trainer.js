@@ -1,10 +1,3 @@
-/**
- * @overview ccmjs-based web component for ER model to relational scheme training
- * @author André Kless <andre.kless@web.de> 2021-2022
- * @license The MIT License (MIT)
- * @version latest (1.0.0)
- */
-
 ( () => {
   const component = {
     name: 'los_trainer',
@@ -219,7 +212,7 @@
          * when an 'add table' button is clicked
          * @param {number} table - table index (0: left, 1: middle, 2: right)
          */
-        onAddTable: (table,isTyp) => {
+        onAddTyp: (table) => {
 
           // create empty table without any key attribute
           data.sections[ phrase_nr - 1 ].input.keys[ table ] = [
@@ -227,7 +220,7 @@
             false,  // foreign key to middle table
             false,  // foreign key to right table
             false,  // artificial primary key
-            isTyp,   // isTyp
+            true,   // isTyp
             [
               {
                 name:false,
@@ -249,24 +242,31 @@
           render();
         },
 
+        isTable: (table) =>{
+          data.sections[ phrase_nr - 1 ].input.keys[ table ][4] = false
+          render();
+        },
+
         /**
          * when a 'remove table' icon is clicked
          * @param {number} table - table index (0: left, 1: middle, 2: right)
          */
-        onRemoveTable: table => {
+        onRemoveTable: (table,schritt) => {
 
           /**
            * key attributes of the relational scheme tables
            * @type {(string|boolean)[][]}
            */
           const keys = data.sections[ phrase_nr - 1 ].input.keys;
+          if (schritt ==1) {
+            // remove table and any foreign keys in other tables that reference that table
+           keys[ table ] = null;
+           keys.forEach( orefs => orefs && ( orefs[ table ] = false ) );
+           keys.forEach( orefs => orefs && ( orefs[5][ table ] = {name:false,me:false,be:false} ) );
 
-          // remove table and any foreign keys in other tables that reference that table
-          keys[ table ] = null;
-          keys.forEach( orefs => orefs && ( orefs[ table ] = false ) );
-
-          keys.forEach( orefs => orefs && ( orefs[5][ table ] = {name:false,me:false,be:false} ) );
-
+          } else {
+            keys[ table ][4] = true;
+          }
           render();
         },
 
@@ -353,7 +353,6 @@
           checkboxes.forEach( checkbox => checkbox.checked = false );
           modal.element.querySelectorAll( 'option' ).forEach( option => option.selected = false );
 
-          //oid.disabled = phrase.input.keys[ table ][ 3 ];  // enable checkbox for primary key
           ref_select.disabled = true;     // disable selector box for selecting the table referenced by the foreign key
           maselect.disabled = true;
           unique.disabled = true;   // disable checkbox for Eindeuti attribute
@@ -483,7 +482,7 @@
               [ eleft.position==='0'?eleft.einbettung==='e'?'eb':'oref':false,
                 eleft.position==='1'?eleft.einbettung==='e'?'eb':'oref':false,
                 eleft.position==='2'?eleft.einbettung==='e'?'eb':'oref':false,
-                true,
+                true,   // hat OID
                 (eright.einbettung==='e'&&eright.position==='0')||(emiddel.einbettung==='e'&&emiddel.position==='0'),   // isTyp
                 [
                   {
@@ -549,7 +548,7 @@
               [ '0', '0', eleft.position==='2' && eleft.einbettung==='r'? eleft.max === 'n'|| eleft.max ==='N'?'2':'1' :'0'],
               [ multi?'1':'0' , '0', multi?'1':'0'],
               [ eright.position==='0' && eright.einbettung==='r'? eright.max === 'n'||eright.max ==='N'?'2':'1' :'0', '0', '0' ]
-            ]
+            ],
           };
 
           // compare current app state data of current phrase with correct solution

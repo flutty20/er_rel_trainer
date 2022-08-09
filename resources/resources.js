@@ -26,13 +26,13 @@ export const config = {
  */
 export const phrases = [
   {
-    "text": "Zu jedem Patienten gibt es eine Patientenakte.Die Patientenakte ist ein fester bestateil des Patienten(2e11u, , )",
+    "text": "Zu jedem Patienten gibt es eine Patientenakte. Die Patientenakte ist ein fester bestateil des Patienten(2e11u, , )",
     "relationship": [ "Patient", "hat", "Patientenakte" ],
     "solution": [ "1", "1" ],
     "esolution":[ "2e11u", "", "" ] //2= ref tabelle, e= einbettung|| r=referenz ,11= 1-1 beziehung||1n= 1-n beziehung ||01= 0-1 beziehung ||0n= 0-n beziehung, u=eindeutig|| ''= keine bedingug|| r=Redundanzkontrolle
   },
   {
-    "text": "Eine Stadt kann ein U-Bahnnetz haben.Außerdem ist es möglich dem U-Bahnnetz U-Bahnen hinzuzufügen(2r01r, , )",
+    "text": "Eine Stadt kann ein U-Bahnnetz haben. Außerdem ist es möglich dem U-Bahnnetz U-Bahnen hinzuzufügen(2r01r, , )",
     "relationship": [ "Stadt", "hat", "U-Bahnnetz" ],
     "solution": [ "1", "c" ],
     "esolution":[ "2r01r", "", "" ]
@@ -44,19 +44,19 @@ export const phrases = [
     "esolution":[ "2e01u", "", "" ]
   },
   {
-    "text": "Ein Planet kann Monde haben, die ihn umkreisen.Jeder Mond soll selbständig bleiben(2r0nu, , )",
+    "text": "Ein Planet kann Monde haben, die ihn umkreisen. Jeder Mond soll selbständig bleiben(2r0nu, , )",
     "relationship": [ "Planet", "hat", "Mond" ],
     "solution": [ "1", "cn" ],
     "esolution":[ "2r0nu", "", "" ]
   },
   {
-    "text": "Ein Rucksack kann mehrere Gegenstände enthalten.Es soll auf die Gegenstände referenziert werden(2r0nu, , )",
+    "text": "Ein Rucksack kann mehrere Gegenstände enthalten. Es soll auf die Gegenstände referenziert werden(2r0nu, , )",
     "relationship": [ "Rucksack", "enthält", "Gegenstand" ],
     "solution": [ "c", "cn" ],
     "esolution":[ "2r0nu", "", "" ]
   },
   {
-    "text": "Kunden kaufen Produkte.Nicht nur Kunden sondern auch Angestellte können Produckte Kaufen(2r0n, , )",
+    "text": "Kunden kaufen Produkte. Nicht nur Kunden sondern auch Angestellte können Produckte Kaufen(2r0n, , )",
     "relationship": [ "Kunde", "hat gekauft", "Produkt" ],
     "solution": [ "cn", "cn" ],
     "esolution":[ "2r0n", "", "" ]
@@ -69,7 +69,7 @@ export const phrases = [
   
   },
   {
-    "text": "Ein Buch hat mehrere Seiten.Eine seite soll nur über das Buch erreichbar sein(2e1nu, , )",
+    "text": "Ein Buch hat mehrere Seiten. Eine seite soll nur über das Buch erreichbar sein(2e1nu, , )",
     "relationship": [ "Buch", "hat", "Seite" ],
     "solution": [ "1", "n" ],
     "esolution":[ "2e1nu", "", "" ]
@@ -81,7 +81,7 @@ export const phrases = [
     "esolution":[ "2e1nu", "", "" ]
   },
   {
-    "text": "Auf einem Rezept stehen Zutaten.Die Tabelle der Zutaten wir noch von andern Tabellen benötigt (2r1n, , )",
+    "text": "Auf einem Rezept stehen Zutaten. Die Tabelle der Zutaten wir noch von andern Tabellen benötigt (2r1n, , )",
     "relationship": [ "Rezept", "hat", "Zutat" ],
     "solution": [ "cn", "n" ],
     "esolution":[ "2r1n", "", "" ]
@@ -105,30 +105,28 @@ export const text = {
   "attr_name": "Name des Attributs",
   "cancel": "Abbrechen",
   "comment": {
-    "create_tables": "Hinweis: Legen Sie mit Hilfe der Buttons die nötigen Tabellen oder Typen an.",
-    "add_keys": "Hinweis: Ergänzen Sie in jeder angelegten Objekt die erforderlichen Attribute.",
-    "missing_arrow": "Hinweis: Setzen Sie für die Verbindungslinie zwischen zwei Objekten die Pfeilspitzen, um die Richtung und Mengenwertigkeit festzulegen, in der die Objekte miteinander in Beziehung stehen.",
-    "missing_entity_table": "Hinweis: Für jede der beiden Entitäten muss eine Objekt erstellt werden.",
-    "missing_entity_oid": "Hinweis: Jede der Objekt benötigt einen Objektidentifikator.",
-    "no_nm_table": "Hinweis: Die mittlere \"%middle%\"-Tabelle wird nur bei einer traditionellen N:M-Beziehung benötigt.",
-    "missing_nm_table": "Hinweis: Da es sich um eine traditionelle N:M-Beziehung handelt, wird eine \"%middle%\"-Tabelle benötigt.",
-    "missing_nm_oref": "Hinweis: Die \"%middle%\"-Tabelle benötigt zwei Referenzen die jeweils auf eine der beiden Entitätstabellen verweisen.",
-    "missing_nm_oid": "Hinweis: Damit jede Kombination aus \"%oref%\" und \"%noref%\" nur einmal vorkommen kann, müssen in der \"%middle%\"-Tabelle die beiden Referenzen einen zusammengesetzten Objektidentifikator bilden.",
-    "missing_11_oref": "Hinweis: Wenn bei einer 1:1-Beziehung beide Entitäten über exakt identische Kardinalitäten verfügen, wird eine Referenz oder Einbettung bei der Hauptentität (hier \"%oref%\") hinzugefügt. Die Hauptentität (hier immer auf der linken Seite) ist die Entität, auf die in der zukünftigen Anwendung in der Regel zuerst zugegriffen wird.",
-    "missing_1c_oref": "Hinweis: Wenn bei einer 1:1-Beziehung beide Entitäten über unterschiedliche Kardinalitäten verfügen, wird die Referenz bei der schwächeren Entität (hier \"%oref%\") hinzugefügt. Eine Entität ist eine schwache Entität, wenn ihre Existenz von der jeweils anderen Entität abhängt.",
-    "missing_11_unique": "Hinweis: Bei einer 1:1-Beziehung muss die Referenz eindeutig sein, damit nicht mehrere Datensätze von \"%oref%\" über die Referenz auf denselben \"%noref%\"-Datensatz verweisen können.",
+    "create_tables": "Hinweis: Legen Sie mit Hilfe der Buttons die nötigen Typen an.",
+    "add_keys": "Hinweis: Ergänzen Sie in jeder angelegten Typen die erforderlichen Objektidentifikatoren und Referenzattribute.",
+    "missing_arrow": "Hinweis: Setzen Sie für die Verbindungslinie zwischen zwei Typen die Pfeilspitzen, um die Richtung und Mengenwertigkeit festzulegen, in der die Typen miteinander in Beziehung stehen.",
+    "missing_entity_table": "Hinweis: Für jede der beiden Entitäten muss eine Typen erstellt werden.",
+    "missing_entity_oid": "Hinweis: Jede der Typen benötigt einen Objektidentifikator.",
+    "no_nm_table": "Hinweis: Die mittlere \"%middle%\"-Typ wird nur bei einer traditionellen N:M-Beziehung benötigt.",
+    "missing_nm_table": "Hinweis: Da es sich um eine traditionelle N:M-Beziehung handelt, wird eine \"%middle%\"-Typ benötigt.",
+    "missing_nm_oref": "Hinweis: Der \"%middle%\"-Typ benötigt zwei Referenzen die jeweils auf eine der beiden Typen verweisen.",
+    "missing_nm_oid": "Hinweis: Damit jede Kombination aus \"%oref%\" und \"%noref%\" nur einmal vorkommen kann, müssen in der \"%middle%\"-Typ die beiden Referenzen einen zusammengesetzten Objektidentifikator bilden.",
     "missing_arrowhead": "Hinweis: Da die Referenz oder Einbettung bei \"%oref%\" gesetzt ist und auf \"%noref%\" verweist, geht der Pfeil von \"%oref%\" nach \"%noref%\". Achte darauf ob es eine Mege oder ein einzelnes objekt ist",
-    "missing_arrowhead_nm": "Hinweis: Da die beiden Referenzen der \"%middle%\"-Tabelle auf die beiden äußeren Tabellen \"%oref%\" und \"%noref%\" verweisen, gehen die Pfeile von der mittleren Tabelle zu den äußeren Objekte.",
+    "missing_arrowhead_nm": "Hinweis: Da die beiden Referenzen des \"%middle%\"-Typ auf die beiden äußeren Typen \"%oref%\" und \"%noref%\" verweisen, gehen die Pfeile von dem mittleren Typ zu den äußeren Typen.",
 
-    "merge_11": "Anmerkung: In der Praxis werden 1:1-Beziehungen häufig zu einer Objekt zusammengefasst.",
+    "merge_11": "Anmerkung: In der Praxis werden 1:1-Beziehungen häufig zu einem Typ zusammengefasst.",
 
     "wrong_me":"Hinweis: Es liegt ein Fehler an der Mengenwertigkeit vor übernimm die Mengenwertigkeit aus dem ER-Diagramm",
     "wrong_me_nm":"Hinweis: Es liegt ein Fehler an der Mengenwertigkeit vor Die Traditionelle Relationale lösung verwendet 1-1 Mengen",
     "wrong_oref":"Hinweis: Anhand der Aufgabenstellung erkennt man das es sich um eine referen und nicht um eine einbettung handelt",
     "wrong_eb":"Hinweis: Anhand der Aufgabenstellung erkennt man das es sich um eine einbettung und nicht um eine referenz handelt",
-    "wrong_tab":"Hinweis: Reverenzen verweisen auf Tabellen, Einbettungen betten Typen ein ",
     "wrong_be":"Hinweis: Die Bedingung ist falsch gesetzt ",
-    "wrong_site":"Hinweis die referen oder einbettung befindet sich nicht in der Hauptentität "
+    "wrong_site":"Hinweis: Die Referen oder Einbettung befindet sich nicht in der Hauptentität ",
+    "wrong_tab":"Hinweis: Es muss für die Haubtidäntität und alle referenzierte Typen eine Tabelle erstellt werden, Eingebette Typen brauchen keine Tabelle",
+    "s2":"Hinweis: Korriegieren sie erst alle Fehler (rot) aus Schritt 1"
   },
   "comment_prefix": "Richtig! Hier noch ein paar ergänzende Hinweise:",
   "correct": "Ihre Antwort war richtig!",

@@ -196,6 +196,28 @@ main select {
   width: 8px;
 }
 
+#element:not(.correct):not(.failed) #tables:hover .arrowhead2 > select {
+  display: inline;
+}
+
+#tables .arrowhead2 > .arrow {
+  display: flex;
+  align-items: center;
+}
+
+.arrowhead2 {
+  flex: 1;
+}
+
+.arrowhead2 > .filler {
+  width: 10px;
+}
+
+.arrowhead2 > .arrow > div {
+  border: 1px solid black;
+  width: 8px;
+}
+
 *[disabled] {
   color: black !important;
 }

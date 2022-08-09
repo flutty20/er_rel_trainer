@@ -80,6 +80,10 @@ export function main(instance, state, phrase, phrase_nr, events) {
           </div>
         </section>
 
+        <section class="lead text-nowrap px-2 py-3">
+        <b> Schritt 1: Erstellen sie das Typschema</b>
+        </section>
+
         <!-- "Add Table" Buttons -->
         <section id="table_buttons" class="p-2 text-nowrap">
           ${addTableButton(0)}
@@ -96,45 +100,44 @@ export function main(instance, state, phrase, phrase_nr, events) {
         <!-- Relational Scheme Tables -->
         <section id="tables" class="px-2 text-nowrap">
           <div>
-            ${renderTable(0)}
+            ${renderTable(0,1)}
           </div>
           <div>
-            ${arrow(2, 0, events.onArrowChange)}
-            ${arrow(1, 0, events.onArrowChange)}
+            ${arrow(1,2, 0, events.onArrowChange)}
+            ${arrow(1,1, 0, events.onArrowChange)}
           </div>
           <div>
-            ${arrow(2, 0)}
-            ${arrow(0, 1)}
+            ${arrow(1,2, 0)}
+            ${arrow(1,0, 1)}
           </div>
           <div>
-            ${arrow(2, 0)}
-            ${arrow(0, 1, events.onArrowChange)}
+            ${arrow(1,2, 0)}
+            ${arrow(1,0, 1, events.onArrowChange)}
           </div>
           <div>
-            ${arrow(2, 0)}
+            ${arrow(1,2, 0)}
             <div>
-              ${renderTable(1)}
+              ${renderTable(1,1)}
             </div>
           </div>
           <div>
-            ${arrow(0, 2)}
-            ${arrow(2, 1, events.onArrowChange)}
+            ${arrow(1,0, 2)}
+            ${arrow(1,2, 1, events.onArrowChange)}
           </div>
           <div>
-            ${arrow(0, 2)}
-            ${arrow(1, 2)}
+            ${arrow(1,0, 2)}
+            ${arrow(1,1, 2)}
           </div>
           <div>
-            ${arrow(0, 2, events.onArrowChange)}
-            ${arrow(1, 2, events.onArrowChange)}
+            ${arrow(1,0, 2, events.onArrowChange)}
+            ${arrow(1,1, 2, events.onArrowChange)}
           </div>
           <div>
-            ${renderTable(2)}
+            ${renderTable(2,1)}
           </div>
         </section>
-
         <!-- Phrase Comments -->
-        ${!section.feedback && !section.input.keys.some(table => table) && phraseComment(instance.text.comment.create_tables) || ''}
+        ${!section.feedback && (!section.input.keys[0] || !section.input.keys[2]) && phraseComment(instance.text.comment.create_tables) || ''}
         ${!section.feedback && !section.input.keys.every(table => !table || table.some((key,i) => key && i<3)) && phraseComment(instance.text.comment.add_keys) || ''}
         ${!section.feedback && missingArrowheads() && phraseComment(instance.text.comment.missing_arrow) || ''}
         ${instance.feedback && section.feedback && (!section.input.keys[0] || !section.input.keys[2]) && phraseComment(instance.text.comment.missing_entity_table) || ''}
@@ -143,9 +146,7 @@ export function main(instance, state, phrase, phrase_nr, events) {
         ${instance.feedback && section.feedback && is_multi && !section.input.keys[1] && phraseComment(instance.text.comment.missing_nm_table) || ''}
         ${instance.feedback && section.feedback && is_multi && section.input.keys[1] && (!section.input.keys[1][0] || !section.input.keys[1][2]) && phraseComment(instance.text.comment.missing_nm_oref) || ''}
         ${instance.feedback && section.feedback && is_multi && section.input.keys[1] && section.input.keys[1][0] && section.input.keys[1][2] && (section.input.keys[1][0] !== 'oid' || section.input.keys[1][2] !== 'oid') && phraseComment(instance.text.comment.missing_nm_oid, 0) || ''}
-        ${instance.feedback && section.feedback && is_single && section.input.keys[0] && section.input.keys[2] && left === right && !section.input.keys[0][2] && phraseComment(instance.text.comment.missing_11_oref, 0) || ''}
-        ${instance.feedback && section.feedback && is_single && section.input.keys[0] && section.input.keys[2] && left !== right && !section.input.keys[left === 'c' ? 0 : 2][left === 'c' ? 2 : 0] && phraseComment(instance.text.comment.missing_1c_oref, left === 'c' ? 0 : 2) || ''}
-        ${instance.feedback && section.feedback && is_single && section.input.keys[0] && section.input.keys[2] && section.input.keys[right === 'c' ? 2 : 0][right === 'c' ? 0 : 2] !== 'oid' && phraseComment(instance.text.comment.missing_11_unique, right === 'c' ? 2 : 0) || ''}
+
         ${instance.feedback && section.feedback && !is_multi && JSON.stringify(section.input.keys) === JSON.stringify(section.feedback.keys) && JSON.stringify(section.input.arrows) !== JSON.stringify(section.feedback.arrows) && phraseComment(instance.text.comment.missing_arrowhead, section.input.keys[0][2] ? 0 : 2) || ''}
         ${instance.feedback && section.feedback && is_multi && section.input.keys[1] && section.input.keys[1][0] && section.input.keys[1][2] && JSON.stringify(section.input.arrows) !== JSON.stringify(section.feedback.arrows) && phraseComment(instance.text.comment.missing_arrowhead_nm, 0) || ''}       
         ${instance.feedback && section.feedback && left === '1' && right === '1' && JSON.stringify(section.input) === JSON.stringify(section.feedback) && phraseComment(instance.text.comment.merge_11) || ''}
@@ -159,12 +160,67 @@ export function main(instance, state, phrase, phrase_nr, events) {
         ${instance.feedback && section.feedback  && !is_multi && section.input.keys[0] && section.input.keys[2] && section.feedback.keys[0] && section.feedback.keys[2] && ((section.input.keys[0][5][2].name ==='oref'  && section.feedback.keys[0][5][2].name === 'eb')|| (section.input.keys[2][5][0].name === 'oref' && section.input.keys[2][5][0].feedback === 'eb')) && phraseComment(instance.text.comment.wrong_eb, 0) || ''}
         ${instance.feedback && section.feedback  && !is_multi && section.input.keys[0] && section.input.keys[2] && section.feedback.keys[0] && section.feedback.keys[2] && ((section.input.keys[0][5][2].name === 'eb' && section.feedback.keys[0][5][2].name === 'oref')|| (section.input.keys[2][5][0].name === 'eb' && section.input.keys[2][5][0].feedback === 'oref')) && phraseComment(instance.text.comment.wrong_oref, 0) || ''}
        
-
-        ${instance.feedback && section.feedback && !is_multi  && section.input.keys[0] && section.input.keys[2] && section.feedback.keys[0] && section.feedback.keys[2] && (section.input.keys[0][4] !== section.feedback.keys[0][4]|| section.input.keys[2][4] !== section.feedback.keys[2][4]) && phraseComment(instance.text.comment.wrong_tab, 0) || ''}
         ${instance.feedback && section.feedback && is_multi  && section.input.keys[0] && section.input.keys[1] && section.input.keys[2] && section.feedback.keys[0] && section.feedback.keys[1] && section.feedback.keys[2] && (section.input.keys[0][4] !== section.feedback.keys[0][4]||section.input.keys[1][4] !== section.feedback.keys[1][4]|| section.input.keys[2][4] !== section.feedback.keys[2][4]) && phraseComment(instance.text.comment.wrong_tab, 0) || ''}
 
         ${instance.feedback && section.feedback  && !is_multi && section.input.keys[0] && section.input.keys[2] && section.feedback.keys[0] && section.feedback.keys[2] && (section.input.keys[0][5][2].be !== section.feedback.keys[0][5][2].be|| section.input.keys[2][5][0].be !== section.feedback.keys[2][5][0].be)&& phraseComment(instance.text.comment.wrong_be, 0) || ''}
         ${instance.feedback && section.feedback  && is_multi && section.input.keys[1] && section.feedback.keys[1]  && (section.input.keys[1][5][0].be !== false|| section.input.keys[1][5][2].be !== false) && phraseComment(instance.text.comment.wrong_be, 0) || ''}
+        <div ?data-hidden=${!tablesConnected()}>
+        <section class="lead text-nowrap px-2 py-3">
+        <b> Schritt 2: Welche Objekttabellen müssen eretellt werden </b>
+        </section>
+
+        <!-- "Add Table" Buttons -->
+        <section id="table_buttons" class="p-2 text-nowrap">
+        ${blabla(0)}
+        ${blabla(1)}
+        ${blabla(2)}
+       </section>
+
+
+        <section id="tables" class="px-2 text-nowrap">
+          <div>
+            ${renderTable(0,2)}
+          </div>
+          <div ?data-hidden=${section.input.keys[0] && section.input.keys[0][4]&& section.input.keys[2]&&section.input.keys[2][4]||(section.input.keys[1] && section.input.keys[1][4])} >
+            ${arrow(2,2, 0, events.onArrowChange)}
+            ${arrow(2,1, 0, events.onArrowChange)}
+          </div>
+          <div ?data-hidden=${section.input.keys[0] && section.input.keys[0][4]&& section.input.keys[2]&&section.input.keys[2][4]||(section.input.keys[1] && section.input.keys[1][4])}>
+            ${arrow(2,2, 0)}
+            ${arrow(2,0, 1)}
+          </div>
+          <div ?data-hidden=${section.input.keys[0] && section.input.keys[0][4]&& section.input.keys[2]&&section.input.keys[2][4]||(section.input.keys[1] && section.input.keys[1][4])}>
+            ${arrow(2,2, 0)}
+            ${arrow(2,0, 1, events.onArrowChange)}
+          </div>
+          <div>
+           <div ?data-hidden=${section.input.keys[0] && section.input.keys[0][4]&& section.input.keys[2]&&section.input.keys[2][4]||(section.input.keys[1] && section.input.keys[1][4])}>
+             ${arrow(2,2, 0)}
+            </div>
+            <div>
+              ${renderTable(1,2)}
+            </div>
+          </div>
+          <div ?data-hidden=${section.input.keys[0] && section.input.keys[0][4]&& section.input.keys[2]&&section.input.keys[2][4]||(section.input.keys[1] && section.input.keys[1][4])}>
+            ${arrow(2,0, 2)}
+            ${arrow(2,2, 1, events.onArrowChange)}
+          </div>
+          <div ?data-hidden=${section.input.keys[0] && section.input.keys[0][4]&& section.input.keys[2]&&section.input.keys[2][4]||(section.input.keys[1] && section.input.keys[1][4])}>
+            ${arrow(2,0, 2)}
+            ${arrow(2,1, 2)}
+          </div>
+          <div ?data-hidden=${section.input.keys[0] && section.input.keys[0][4]&& section.input.keys[2]&&section.input.keys[2][4]||(section.input.keys[1] && section.input.keys[1][4])}>
+            ${arrow(2,0, 2, events.onArrowChange)}
+            ${arrow(2,1, 2, events.onArrowChange)}
+          </div>
+          <div>
+            ${renderTable(2,2)}
+          </div>
+        </section>
+        </div>
+        ${section.feedback && !section.correct && phraseComment(instance.text.comment.s2) || ''}
+        ${instance.feedback && section.feedback  &&  (section.input.keys[0]&&section.feedback.keys[0]&&section.input.keys[0][4] != section.feedback.keys[0][4] ||  section.input.keys[1]&&section.feedback.keys[1]&&section.input.keys[1][4] != section.feedback.keys[1][4] ||  section.input.keys[2]&&section.feedback.keys[2]&&section.input.keys[2][4] != section.feedback.keys[2][4]) && phraseComment(instance.text.comment.wrong_tab, 0) || ''}
+        
         <!-- Buttons -->
         <section class="d-flex justify-content-center flex-wrap px-2 py-3">
           <button class="btn btn-outline-danger m-1" @click=${events.onCancelButton} ?data-hidden=${!instance.oncancel}>${instance.text.cancel}</button>
@@ -195,20 +251,29 @@ export function main(instance, state, phrase, phrase_nr, events) {
   function addTableButton(table) {
     return html`
       <div class="text-${table === 0 ? 'left' : (table === 1 ? 'center px-2' : 'right')}">
-        <button class="btn btn-${section.feedback ? (section.feedback.keys[table] ? 'danger' : 'success') : 'primary'} btn-sm" @click=${() => events.onAddTable(table,false)} .disabled=${section.feedback} ?data-invisible=${input.keys[table] !== null}>+ "${section.relationship[table]}"${instance.text.table}</button>
-        </br> </br>
-        <button class="btn btn-${section.feedback ? (section.feedback.keys[table] ? 'danger' : 'success') : 'primary'} btn-sm" @click=${() => events.onAddTable(table,true)} .disabled=${section.feedback} ?data-invisible=${input.keys[table] !== null}>+ "${section.relationship[table]}"${instance.text.typ}</button>
+        <button class="btn btn-${section.feedback ? (section.feedback.keys[table] ? 'danger' : 'success') : 'primary'} btn-sm" @click=${() => events.onAddTyp(table)} .disabled=${section.feedback} ?data-invisible=${input.keys[table] !== null}>+ "${section.relationship[table]}"${instance.text.typ}</button>
       </div>
     `;
   }
-
+  /**
+   * returns the HTML template for an 'add table' button
+   * @param {number} table - table index (0: left, 1: middle, 2: right)
+   * @returns {TemplateResult} HTML template for an 'add table' button
+   */
+  function blabla(table) {
+    return html`
+    <div class="text-${table === 0 ? 'left' : (table === 1 ? 'center px-2' : 'right')}" ?data-invisible=${input.keys[table] === null}>
+      <button class="btn btn-${section.feedback ? (section.feedback.keys[table] && !section.feedback.keys[table][4] ? 'danger' : 'success') : 'primary'} btn-sm" @click=${() => events.isTable(table)} .disabled=${section.feedback} ?data-invisible=${input.keys[table] !== null && !input.keys[table][4]}>+ "${section.relationship[table]}"${instance.text.table}</button>
+    </div>
+    `
+  }
 
   /**
    * returns the HTML template for relational scheme table
    * @param {number} table - table index (0: left, 1: middle, 2: right)
    * @returns {TemplateResult} HTML template for relational scheme table
    */
-  function renderTable(table) {
+  function renderTable(table,schritt) {
 
     /**
      * key attributes of the tables
@@ -228,10 +293,10 @@ export function main(instance, state, phrase, phrase_nr, events) {
      */
     const multi_oid = keys && ((keys[0] === 'oid') + (keys[1] === 'oid') + (keys[2] === 'oid')) > 0 && keys[3];
     return html`
-      <div class="scheme border" ?data-invisible=${keys === null}>
-        <header class="bg-${section.feedback ? (section.feedback.keys[table] && keys &&  section.feedback.keys[table][4] === keys[4] ? 'success' : 'danger') : keys == null ? null : (keys[4] ? 'badge badge-info' : 'light')} border-bottom px-3 py-2 d-inline-flex justify-content-center align-items-center">
-          <span>${keys === null ? null : (keys[4] ? 'Typ-' : 'Tabelle-')} ${section.relationship[table]} </span>
-          <span class="icon" ?data-hidden=${!keys} @click=${() => events.onRemoveTable(table)}>
+      <div class="scheme border" ?data-invisible=${(keys === null) || (keys[4] && schritt ==2)}>
+        <header class="bg-${section.feedback  ? (section.feedback.keys[table] && keys &&  (schritt==1 || section.feedback.keys[table][4] === keys[4]) ? 'success' : 'danger') : keys == null ? null : (schritt==1 ? 'badge badge-info' : 'light')} border-bottom px-3 py-2 d-inline-flex justify-content-center align-items-center">
+          <span>${keys === null ? null : (schritt == 1 ? 'Typ-' : 'Tabelle-')} ${section.relationship[table]} </span>
+          <span class="icon" ?data-hidden=${!keys} @click=${() => events.onRemoveTable(table,schritt)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg text-danger ml-1" viewBox="0 0 16 16">
               <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
             </svg>
@@ -240,19 +305,19 @@ export function main(instance, state, phrase, phrase_nr, events) {
         <main class="p-2">
           <div class="d-flex align-items-stretch border border-primary rounded bg-light" ?data-hidden=${!multi_oid}>
             <div>
-              ${multi_oid && keys && keys[3] ? attr(toID(section.relationship[table], "oid"), true, false, false, false, false, false, false, false) : ''}
-              ${multi_oid && keys && keys[5].map((key, i) => i < 3 && key.name !== false && key.name === 'oid' ? attr(toID(section.relationship[i], key.name), false, key.name === 'oid', key.name === 'eb', key.me, key.be === 'r', key.be === 'u', true, i) : '') || ''}
+              ${multi_oid && keys && keys[3] ? attr(toID(section.relationship[table], "oid",schritt), true, false, false, false, false, false, false, false,schritt) : ''}
+              ${multi_oid && keys && keys[5].map((key, i) => i < 3 && key.name !== false && key.name === 'oid' ? attr(toID(section.relationship[i], key.name,schritt), false, key.name === 'oid', key.name === 'eb', key.me, key.be === 'r', key.be === 'u', true, i,schritt) : '') || ''}
             </div>
             <div class="bg-primary d-flex align-items-center">
               <span class="badge badge-primary ml-0" title="${instance.text.multi_oid_badge}">OID</span>
             </div>
           </div>
           
-            ${!multi_oid && keys && keys[3] && keys[0] !== "oid" && keys[1] !== "oid" && keys[2] !== "oid" ? attr(toID(section.relationship[table], "oid"), true, false, false, false, false, false, false, false) : ''}
-            ${keys && keys[5].map((key, i) => i < 3 && key.name !== false && !(key.name === 'oid' && multi_oid) ? attr(toID(section.relationship[i], key.name), false, key.name === 'oref' || key.name === 'oid', key.name === 'eb', key.me, key.be === 'r', key.be === 'u', false, i) : '') || ''}
+            ${!multi_oid && keys && keys[3] && keys[0] !== "oid" && keys[1] !== "oid" && keys[2] !== "oid" ? attr(toID(section.relationship[table], "oid",schritt), true, false, false, false, false, false, false, false,schritt) : ''}
+            ${keys && keys[5].map((key, i) => i < 3 && key.name !== false && !(key.name === 'oid' && multi_oid) ? attr(toID(section.relationship[i], key.name,schritt), false, key.name === 'oref' || key.name === 'oid', key.name === 'eb', key.me, key.be === 'r', key.be === 'u', false, i,schritt) : '') || ''}
           
             <div class="px-1 ${missed_keys ? 'bg-danger' : ''}">
-            <button class="btn btn-link btn-sm mt-1 p-0" .disabled=${section.feedback} ?data-hidden=${keys && keys[3] && !addableForeignKey(input.keys, table) || section.feedback && !missed_keys} @click=${() => events.onAddAttrTable(table)}>+ ${instance.text.key_attr}</button>
+            <button class="btn btn-link btn-sm mt-1 p-0" .disabled=${section.feedback} ?data-hidden=${keys && keys[3] && !addableForeignKey(input.keys, table) || section.feedback && !missed_keys||schritt==2} @click=${() => events.onAddAttrTable(table)}>+ ${instance.text.key_attr}</button>
           </div>
         </main>
       </div>
@@ -261,18 +326,18 @@ export function main(instance, state, phrase, phrase_nr, events) {
     /**
     **
      */
-    function attr(name, oid, oref, eb, me, redundanz, unique, tab, reftable) {
+    function attr(name, oid, oref, eb, me, redundanz, unique, tab, reftable,schritt) {
       return html`
-        <div class="attr p-1  ${eb || tab ? 'ml-3' : ''} d-flex align-items-center ${section.feedback && section.feedback.keys[table] ? (reftable !== false && keys[reftable] === section.feedback.keys[table][reftable] && keys[5][reftable].me === section.feedback.keys[table][5][reftable].me && keys[5][reftable].be === section.feedback.keys[table][5][reftable].be|| reftable === false && oid && keys[3] === section.feedback.keys[table][3] ? 'bg-success' : 'bg-danger') : ''}">
+        <div class="attr p-1  ${eb || tab ? 'ml-3' : ''} d-flex align-items-center ${section.feedback && section.feedback.keys[table] && schritt==1 ? (reftable !== false && keys[reftable] === section.feedback.keys[table][reftable] && keys[5][reftable].me === section.feedback.keys[table][5][reftable].me && keys[5][reftable].be === section.feedback.keys[table][5][reftable].be|| reftable === false && oid && keys[3] === section.feedback.keys[table][3] ? 'bg-success' : 'bg-danger') : ''}">
        
         <span title="${instance.text.attr_name}">${me==='0-n'||me==='1-n' ?'{'+name+'}':name}</span>
-          ${oid && !multi_oid ? html`<span class="badge badge-primary" title="${instance.text.oid_badge}">OID</span>` : ''}
+          ${oid && !multi_oid ? html`<span class="badge badge-primary" title="${instance.text.oid_badge}">${schritt==1?'OID':'PK'}</span>` : ''}
           ${oref ? html`<span class="badge badge-warning" title="${instance.text.oref_badge}">REF</span>` : ''}
           ${eb ? html`<span class="badge badge-info" title="${instance.text.eb_badge}">EB</span>` : ''}
           ${me ? html`<span class="badge badge-success" title="${instance.text.me_badge}">[${me.toUpperCase()}]</span>` : ''}
           ${redundanz ? html`<span class="badge badge-secondary" title="${instance.text.redundanz_badge}">R!</span>` : ''}
           ${unique ? html`<span class="badge badge-secondary" title="${instance.text.unique_badge}">U!</span>` : ''}
-          <span class="icon" title="${instance.text.remove_attr}" @click=${() => events.onRemoveAttr(table, reftable)}>
+          <span ?data-hidden=${schritt==2} class="icon" title="${instance.text.remove_attr}" @click=${() => events.onRemoveAttr(table, reftable)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg text-danger ml-1" viewBox="0 0 16 16">
               <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/>
             </svg>
@@ -286,17 +351,17 @@ export function main(instance, state, phrase, phrase_nr, events) {
      * @param {string} string
      * @returns {string} key attribute name
      */
-    function toID(string, ref) {
+    function toID(string, ref,schritt) {
       switch (ref) {
         case "oid":
-          return string.toLowerCase().trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/\W/g, '_') + '_oid';
-          break;
+          if(schritt==1){
+            return string.toLowerCase().trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/\W/g, '_') + '_oid';
+          }
+          return string.toLowerCase().trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/\W/g, '_') + '_pk';
         case "oref":
           return string.toLowerCase().trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/\W/g, '_') + '_oid';
-          break;
         case "eb":
-          return string.toLowerCase().trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/\W/g, '_');
-          break;
+          return string.toLowerCase().trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/\W/g, '_')+ '_typ';
         default:
           break;
       }
@@ -319,11 +384,12 @@ export function main(instance, state, phrase, phrase_nr, events) {
    * @param {Function} [onChange] - when the arrowhead is changed
    * @returns {TemplateResult} HTML template for an arrow line
    */
-  function arrow(from, to, onChange) {
+  function arrow(schritt,from, to, onChange) {
     return html`
       <div class="line" ?data-hidden=${!input.keys[from] || !input.keys[to] || !input.keys[from][to] && !input.keys[to][from]}>
-        <div class="arrowhead ${section.feedback && section.feedback.keys[from] && section.feedback.keys[to] && (section.feedback.keys[from][to] || section.feedback.keys[to][from]) ? (input.arrows[from][to] === section.feedback.arrows[from][to] ? 'bg-success' : 'bg-danger') : ''}" ?data-hidden=${!onChange}>
-          <select data-from="${from}" data-to="${to}" .value="${(input.arrows[from][to] + 0).toString()}" @change=${onChange}>
+        <div class="${schritt==1?'arrowhead':'arrowhead2'} ${schritt==1&& section.feedback && section.feedback.keys[from] && section.feedback.keys[to] && (section.feedback.keys[from][to] || section.feedback.keys[to][from]) ? (input.arrows[from][to] === section.feedback.arrows[from][to] ? 'bg-success' : 'bg-danger') : ''}" ?data-hidden=${!onChange}>
+          
+        <select data-from="${from}" data-to="${to}" .value="${(input.arrows[from][to] + 0).toString()}" @change=${onChange} ?data-hidden=${schritt==2}>
           <option value="0"> </option>  
             <option value="1">${from - to > 0 ? '⟵' : '⟶'}</option>
             <option value="2">${from - to > 0 ? '⇇' : '⇉'}</option>
