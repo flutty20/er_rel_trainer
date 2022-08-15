@@ -26,68 +26,68 @@ export const config = {
  */
 export const phrases = [
   {
-    "text": "Zu jedem Patienten gibt es eine Patientenakte. Die Patientenakte ist ein fester bestateil des Patienten(2e11u, , )",
+    "text": "Zu jedem Patienten gibt es eine Patientenakte. Die Patientenakte ist ein fester Bestandteil des Patienten. (2e11u, , )",
     "relationship": [ "Patient", "hat", "Patientenakte" ],
     "solution": [ "1", "1" ],
     "esolution":[ "2e11u", "", "" ] //2= ref tabelle, e= einbettung|| r=referenz ,11= 1-1 beziehung||1n= 1-n beziehung ||01= 0-1 beziehung ||0n= 0-n beziehung, u=eindeutig|| ''= keine bedingug|| r=Redundanzkontrolle
   },
   {
-    "text": "Eine Stadt kann ein U-Bahnnetz haben. Außerdem ist es möglich dem U-Bahnnetz U-Bahnen hinzuzufügen(2r01r, , )",
+    "text": "Eine Stadt kann ein U-Bahnnetz haben. Außerdem ist es möglich dem U-Bahnnetz U-Bahnen hinzuzufügen. (2r01r, , )",
     "relationship": [ "Stadt", "hat", "U-Bahnnetz" ],
     "solution": [ "1", "c" ],
     "esolution":[ "2r01r", "", "" ]
   },
   {
-    "text": "Zu jedem Deckel gibt es einen Topf, es gibt allerdings auch Töpfe ohne Deckel (z.B. Wok).Der Deckel muss nicht eigenständig sein (2e01u, , )",
+    "text": "Zu jedem Deckel gibt es einen Topf, es gibt allerdings auch Töpfe ohne Deckel (z.B. Wok).Der Deckel muss nicht eigenständig sein. (2e01u, , )",
     "relationship": [ "Topf", "hat", "Deckel" ],
     "solution": [ "1", "c" ],
     "esolution":[ "2e01u", "", "" ]
   },
   {
-    "text": "Ein Planet kann Monde haben, die ihn umkreisen. Jeder Mond soll selbständig bleiben(2r0nu, , )",
+    "text": "Ein Planet kann Monde haben, die ihn umkreisen. Jeder Mond soll selbständig bleiben. (2r0nu, , )",
     "relationship": [ "Planet", "hat", "Mond" ],
     "solution": [ "1", "cn" ],
     "esolution":[ "2r0nu", "", "" ]
   },
   {
-    "text": "Ein Rucksack kann mehrere Gegenstände enthalten. Es soll auf die Gegenstände referenziert werden(2r0nu, , )",
+    "text": "Ein Rucksack kann mehrere Gegenstände enthalten. Es soll auf die Gegenstände referenziert werden. (2r0nu, , )",
     "relationship": [ "Rucksack", "enthält", "Gegenstand" ],
     "solution": [ "c", "cn" ],
     "esolution":[ "2r0nu", "", "" ]
   },
   {
-    "text": "Kunden kaufen Produkte. Nicht nur Kunden sondern auch Angestellte können Produckte Kaufen(2r0n, , )",
+    "text": "Kunden kaufen Produkte. Nicht nur Kunden, sondern auch Angestellte können Produckte Kaufen. (2r0n, , )",
     "relationship": [ "Kunde", "hat gekauft", "Produkt" ],
     "solution": [ "cn", "cn" ],
     "esolution":[ "2r0n", "", "" ]
   },
   {
-    "text": "Ein Mensch kann keine, eine oder mehrere Staatsangehörigkeiten besitzen.(2r0nr, , )",
+    "text": "Ein Mensch kann keine, eine oder mehrere Staatsangehörigkeiten besitzen. (2r0nr, , )",
     "relationship": [ "Mensch", "besitzt", "Staatsangehörigkeit" ],
     "solution": [ "n", "cn" ],
     "esolution":[ "2r0nr", "", "" ]
   
   },
   {
-    "text": "Ein Buch hat mehrere Seiten. Eine seite soll nur über das Buch erreichbar sein(2e1nu, , )",
+    "text": "Ein Buch hat mehrere Seiten. Eine Seite soll nur über das Buch erreichbar sein. (2e1nu, , )",
     "relationship": [ "Buch", "hat", "Seite" ],
     "solution": [ "1", "n" ],
     "esolution":[ "2e1nu", "", "" ]
   },
   {
-    "text": "Ein Wald besteht aus Bäume.(2e1nu, , )",
+    "text": "Ein Wald besteht aus Bäume. (2e1nu, , )",
     "relationship": [ "Wald", "besteht aus", "Bäume" ],
     "solution": [ "c", "n" ],
     "esolution":[ "2e1nu", "", "" ]
   },
   {
-    "text": "Auf einem Rezept stehen Zutaten. Die Tabelle der Zutaten wir noch von andern Tabellen benötigt (2r1n, , )",
+    "text": "Auf einem Rezept stehen Zutaten. Die Tabelle der Zutaten wir noch von andern Tabellen benötigt. (2r1n, , )",
     "relationship": [ "Rezept", "hat", "Zutat" ],
     "solution": [ "cn", "n" ],
     "esolution":[ "2r1n", "", "" ]
   },
   {
-    "text": "Ein Haus hat Eigentümer und Eigentümer haben Häuser. Es soll über eine Traditionelle Relationale N-M beziehung gelöst weredn (, t, )",
+    "text": "Ein Haus hat Eigentümer und Eigentümer haben Häuser. Es soll über eine Traditionelle Relationale N-M Beziehung gelöst werden. (, t, )",
     "relationship": [ "Haus", "hat", "Eigentümer" ],
     "solution": [ "n", "n" ],
     "esolution":[ "", "t", "" ]
@@ -106,7 +106,7 @@ export const text = {
   "cancel": "Abbrechen",
   "comment": {
     "create_tables": "Hinweis: Legen Sie mit Hilfe der Buttons die nötigen Typen an.",
-    "add_keys": "Hinweis: Ergänzen Sie in jeder angelegten Typen die erforderlichen Objektidentifikatoren und Referenzattribute.",
+    "add_keys": "Hinweis: Ergänzen Sie in jedem angelegten Typen die erforderlichen Objektidentifikatoren und Referenzattribute.",
     "missing_arrow": "Hinweis: Setzen Sie für die Verbindungslinie zwischen zwei Typen die Pfeilspitzen, um die Richtung und Mengenwertigkeit festzulegen, in der die Typen miteinander in Beziehung stehen.",
     "missing_entity_table": "Hinweis: Für jede der beiden Entitäten muss eine Typen erstellt werden.",
     "missing_entity_oid": "Hinweis: Jede der Typen benötigt einen Objektidentifikator.",
@@ -114,19 +114,19 @@ export const text = {
     "missing_nm_table": "Hinweis: Da es sich um eine traditionelle N:M-Beziehung handelt, wird eine \"%middle%\"-Typ benötigt.",
     "missing_nm_oref": "Hinweis: Der \"%middle%\"-Typ benötigt zwei Referenzen die jeweils auf eine der beiden Typen verweisen.",
     "missing_nm_oid": "Hinweis: Damit jede Kombination aus \"%oref%\" und \"%noref%\" nur einmal vorkommen kann, müssen in der \"%middle%\"-Typ die beiden Referenzen einen zusammengesetzten Objektidentifikator bilden.",
-    "missing_arrowhead": "Hinweis: Da die Referenz oder Einbettung bei \"%oref%\" gesetzt ist und auf \"%noref%\" verweist, geht der Pfeil von \"%oref%\" nach \"%noref%\". Achte darauf ob es eine Mege oder ein einzelnes objekt ist",
+    "missing_arrowhead": "Hinweis: Da die Referenz oder Einbettung bei \"%oref%\" gesetzt ist und auf \"%noref%\" verweist, geht der Pfeil von \"%oref%\" nach \"%noref%\". Achte darauf, ob es eine Menge oder ein einzelnes objekt ist",
     "missing_arrowhead_nm": "Hinweis: Da die beiden Referenzen des \"%middle%\"-Typ auf die beiden äußeren Typen \"%oref%\" und \"%noref%\" verweisen, gehen die Pfeile von dem mittleren Typ zu den äußeren Typen.",
 
     "merge_11": "Anmerkung: In der Praxis werden 1:1-Beziehungen häufig zu einem Typ zusammengefasst.",
 
     "wrong_me":"Hinweis: Es liegt ein Fehler an der Mengenwertigkeit vor übernimm die Mengenwertigkeit aus dem ER-Diagramm",
-    "wrong_me_nm":"Hinweis: Es liegt ein Fehler an der Mengenwertigkeit vor Die Traditionelle Relationale lösung verwendet 1-1 Mengen",
-    "wrong_oref":"Hinweis: Anhand der Aufgabenstellung erkennt man das es sich um eine referen und nicht um eine einbettung handelt",
-    "wrong_eb":"Hinweis: Anhand der Aufgabenstellung erkennt man das es sich um eine einbettung und nicht um eine referenz handelt",
+    "wrong_me_nm":"Hinweis: Es liegt ein Fehler an der Mengenwertigkeit vor Die Traditionelle Relationale Lösung verwendet 1-1 Mengen",
+    "wrong_oref":"Hinweis: Anhand der Aufgabenstellung erkennt man das es sich um eine Referen und nicht um eine Einbettung handelt",
+    "wrong_eb":"Hinweis: Anhand der Aufgabenstellung erkennt man das es sich um eine Einbettung und nicht um eine Referenz handelt",
     "wrong_be":"Hinweis: Die Bedingung ist falsch gesetzt ",
-    "wrong_site":"Hinweis: Die Referen oder Einbettung befindet sich nicht in der Hauptentität ",
-    "wrong_tab":"Hinweis: Es muss für die Haubtidäntität und alle referenzierte Typen eine Tabelle erstellt werden, Eingebette Typen brauchen keine Tabelle",
-    "s2":"Hinweis: Korriegieren sie erst alle Fehler (rot) aus Schritt 1"
+    "wrong_site":"Hinweis: Die Referenz oder Einbettung befindet sich nicht in der Hauptentität ",
+    "wrong_tab":"Hinweis: Es muss für die Hauptentität alle referenzierten Typen eine Tabelle erstellt werden, Eingebettet Typen brauchen keine Tabelle",
+    "s2":"Hinweis: Korrigieren sie erst alle Fehler (rot) aus Schritt 1"
   },
   "comment_prefix": "Richtig! Hier noch ein paar ergänzende Hinweise:",
   "correct": "Ihre Antwort war richtig!",
@@ -136,12 +136,12 @@ export const text = {
   "failed": "Ihre letzte Antwort war falsch!",
   "finish": "Neustart",
   "oref": "Referenz",
-  "oref_badge": "Referenz: Attribut das auf einen Datensatz einer anderen Objekt verweist.",
+  "oref_badge": "Referenz: Attribut das auf einen Datensatz eines anderen Objekts verweist.",
   "oref_input": "Geben Sie hier an, ob es sich um eine Referenz handelt.",
   "heading": "Gegeben ist ein ER-Diagramm, das eine binäre Beziehung zwischen zwei Entitäten zeigt. Ihre Aufgabe ist es das ER-Diagramm in ein logisches relationales Schema zu überführen und dafür die nötigen Objekte anzulegen, darin die erforderlichen Attribute zu ergänzen und die Richtung festzulegen, in der die Objekte miteinander in Beziehung stehen.",
   "key_attr": "Attribut",
   "legend": "Legende",
-  "multi_oid_badge": "Zusammengesetzter Objektidentifikator: Attribute mit denen sich ein Datensatz dieser Objekt eindeutig identifizieren lässt.",
+  "multi_oid_badge": "Zusammengesetzter Objektidentifikator: Attribute mit denen sich ein Datensatz dieses Objekt eindeutig identifizieren lässt.",
   "next": "Weiter",
   "notation": "ER-Notation:",
   "opt": "Optional",
@@ -150,9 +150,9 @@ export const text = {
   "phrase": "Phrase [%%]:",
   "oid": "Objektidentifikator",
   "oid_badge": "Objektidentifikator: Attribut mit dem sich ein Datensatz eindeutig identifizieren lässt.",
-  "oid_input": "Geben Sie hier an, ob das objekt eine Objektidentifikator besitzt.",
+  "oid_input": "Geben Sie hier an, ob das Objekt eine Objektidentifikator besitzt.",
   "ref_select": "Referenzierte Tabelle / Typ:",
-  "ref_select_input": "Geben Sie hier an auf welche Objekt die Referenz verweist.",
+  "ref_select_input": "Geben Sie hier an auf welches Objekt die Referenz verweist.",
   "remove_attr": "Attribut entfernen",
   "retry": "Korrigieren",
   "selection": [ "Bitte auswählen", "einfach", "bedingt", "mehrfach", "bedingt mehrfach" ],
@@ -164,17 +164,17 @@ export const text = {
   //new
   "typ": "-Typ",
   "eb":"Einbettung",
-  "eb_input": "Geben Sie hier an, ob es sich um einen Einbettung handelt.",
-  "eb_badge": "Einbettung: Ein eingebetterter typ versiert seine eigenstendigkeit",
+  "eb_input": "Geben Sie hier an, ob es sich um eine Einbettung handelt.",
+  "eb_badge": "Einbettung: Ein Eingebetterter Typ versiert seine eigenstendigkeit",
   "ma": "Mengenwertigkeit ",
-  "ma_input": "Geben Sie hier die Mengenwertigkeit der beziehung an.",
-  "ma_badge": "Mengenwertigesatrebut: ermöglicht es Arrys unter einem atribut zu verwalten.",
+  "ma_input": "Geben Sie hier die Mengenwertigkeit der Beziehung an.",
+  "ma_badge": "Mengenwertigesattribut: ermöglicht es Arrays unter einem Attribut zu verwalten.",
   "unique": "Eindeutigkeit",
-  "unique_input": "Geben Sie hier an, ob es sich um einen Eindeutigesatrebut handelt.",
-  "unique_badge": "Eindeutigesatrebut: stellt sicher das es das selbe objekt nur einmal vorkommt.",
+  "unique_input": "Geben Sie hier an, ob es sich um einen Eindeutigesattribut  handelt.",
+  "unique_badge": "Eindeutigesattribut: stellt sicher, dass es dasselbe Objekt nur einmal vorkommt",
   "redundanz": "Redundanzkontrolle",
   "redundanz_input": "Geben Sie hier an, ob es sich um einen Redundanzkontrolle handelt.",
-  "redundanz_badge": "Redundanzkontrolle: stellt sicher das es das selbe objekt nur einmal vorkommt.",
+  "redundanz_badge": "Redundanzkontrolle: stellt sicher, dass es dasselbe Objekt nur einmal vorkommt",
   "bedingung": "Bedingung"
 
 };

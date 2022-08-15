@@ -331,7 +331,7 @@ export function main(instance, state, phrase, phrase_nr, events) {
         <div class="attr p-1  ${eb || tab ? 'ml-3' : ''} d-flex align-items-center ${section.feedback && section.feedback.keys[table] && schritt==1 ? (reftable !== false && keys[reftable] === section.feedback.keys[table][reftable] && keys[5][reftable].me === section.feedback.keys[table][5][reftable].me && keys[5][reftable].be === section.feedback.keys[table][5][reftable].be|| reftable === false && oid && keys[3] === section.feedback.keys[table][3] ? 'bg-success' : 'bg-danger') : ''}">
        
         <span title="${instance.text.attr_name}">${me==='0-n'||me==='1-n' ?'{'+name+'}':name}</span>
-          ${oid && !multi_oid ? html`<span class="badge badge-primary" title="${instance.text.oid_badge}">${schritt==1?'OID':'PK'}</span>` : ''}
+          ${oid && !multi_oid ? html`<span class="badge badge-primary" title="${instance.text.oid_badge}">OID</span>` : ''}
           ${oref ? html`<span class="badge badge-warning" title="${instance.text.oref_badge}">REF</span>` : ''}
           ${eb ? html`<span class="badge badge-info" title="${instance.text.eb_badge}">EB</span>` : ''}
           ${me ? html`<span class="badge badge-success" title="${instance.text.me_badge}">[${me.toUpperCase()}]</span>` : ''}
@@ -354,10 +354,7 @@ export function main(instance, state, phrase, phrase_nr, events) {
     function toID(string, ref,schritt) {
       switch (ref) {
         case "oid":
-          if(schritt==1){
-            return string.toLowerCase().trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/\W/g, '_') + '_oid';
-          }
-          return string.toLowerCase().trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/\W/g, '_') + '_pk';
+          return string.toLowerCase().trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/\W/g, '_') + '_oid';
         case "oref":
           return string.toLowerCase().trim().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/\W/g, '_') + '_oid';
         case "eb":
