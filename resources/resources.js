@@ -66,7 +66,7 @@ export const config = {
     "relationship": [ "Mensch", "besitzt", "Staatsangehörigkeit" ],
     "solution": [ "n", "cn" ],
     "esolution":[ "2r0nr", "", "" ]
-  
+
   },
   {
     "text": "Ein Buch hat mehrere Seiten. Eine Seite soll nur über das Buch erreichbar sein. (2e1nu, , )",
