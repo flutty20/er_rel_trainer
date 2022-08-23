@@ -81,7 +81,7 @@ export function main(instance, state, phrase, phrase_nr, events) {
         </section>
 
         <section class="lead text-nowrap px-2 py-3">
-        <b> Schritt 1: Erstellen sie das Typschema</b>
+        <b> Schritt 1: Erstellen sie das Typschema mit den Hauptattrebutrn </b>
         </section>
 
         <!-- "Add Table" Buttons -->
@@ -176,7 +176,7 @@ export function main(instance, state, phrase, phrase_nr, events) {
         ${blabla(2)}
        </section>
 
-
+       
         <section id="tables" class="px-2 text-nowrap">
           <div>
             ${renderTable(0,2)}
@@ -303,20 +303,20 @@ export function main(instance, state, phrase, phrase_nr, events) {
           </span>
         </header>
         <main class="p-2">
-          <div class="d-flex align-items-stretch border border-primary rounded bg-light" ?data-hidden=${!multi_oid}>
+          <div class="${schritt==2?'d-flex align-items-stretch border border-primary rounded bg-light':''}" ?data-hidden=${!multi_oid}>
             <div>
-              ${multi_oid && keys && keys[3] ? attr(toID(section.relationship[table], "oid",schritt), true, false, false, false, false, false, false, false,schritt) : ''}
+              ${multi_oid && schritt == 2 && keys && keys[3] ? attr(toID(section.relationship[table], "oid",schritt), true, false, false, false, false, false, false, false,schritt) : ''}
               ${multi_oid && keys && keys[5].map((key, i) => i < 3 && key.name !== false && key.name === 'oid' ? attr(toID(section.relationship[i], key.name,schritt), false, key.name === 'oid', key.name === 'eb', key.me, key.be === 'r', key.be === 'u', true, i,schritt) : '') || ''}
             </div>
-            <div class="bg-primary d-flex align-items-center">
+            <div class="bg-primary d-flex align-items-center" ?data-hidden=${schritt==1}>
               <span class="badge badge-primary ml-0" title="${instance.text.multi_oid_badge}">OID</span>
             </div>
           </div>
           
-            ${!multi_oid && keys && keys[3] && keys[0] !== "oid" && keys[1] !== "oid" && keys[2] !== "oid" ? attr(toID(section.relationship[table], "oid",schritt), true, false, false, false, false, false, false, false,schritt) : ''}
+            ${!multi_oid && schritt == 2 && keys && keys[3] && keys[0] !== "oid" && keys[1] !== "oid" && keys[2] !== "oid" ? attr(toID(section.relationship[table], "oid",schritt), true, false, false, false, false, false, false, false,schritt) : ''}
             ${keys && keys[5].map((key, i) => i < 3 && key.name !== false && !(key.name === 'oid' && multi_oid) ? attr(toID(section.relationship[i], key.name,schritt), false, key.name === 'oref' || key.name === 'oid', key.name === 'eb', key.me, key.be === 'r', key.be === 'u', false, i,schritt) : '') || ''}
           
-            <div class="px-1 ${missed_keys ? 'bg-danger' : ''}">
+          <div class="px-1 ${missed_keys ? 'bg-danger' : ''}">
             <button class="btn btn-link btn-sm mt-1 p-0" .disabled=${section.feedback} ?data-hidden=${keys && keys[3] && !addableForeignKey(input.keys, table) || section.feedback && !missed_keys||schritt==2} @click=${() => events.onAddAttrTable(table)}>+ ${instance.text.key_attr}</button>
           </div>
         </main>
@@ -532,7 +532,7 @@ export function addKeyForm(instance, section, table, onSubmit) {
   return html`
     <form id="attr-form" @submit=${onSubmit}>
       <!-- oid -->
-      <div class="form-group" title="${instance.text.oid}">
+      <div class="form-group" title="${instance.text.oid}" hidden=true "}>
         <input type="checkbox" name="oid" id="key-oid">
         <label class="form-check-label pl-1" for="key-oid">
           ${instance.text.oid}

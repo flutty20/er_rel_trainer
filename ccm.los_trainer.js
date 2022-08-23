@@ -219,7 +219,7 @@
             false,  // foreign key to left table
             false,  // foreign key to middle table
             false,  // foreign key to right table
-            false,  // artificial primary key
+            table !=1,  // artificial primary key
             true,   // isTyp
             [
               {
@@ -368,6 +368,7 @@
           // listen to change event of checkbox for foreign key
           oref.addEventListener( 'change', event => {
               // a foreign key can be a primary key
+            oid.checked= table==1 && oref.checked;
             ref_select.disabled = !event.target.checked;                // the referenced table can only be selected for a foreign key
             submit.disabled = !oid.checked && !oref.checked;        // the key attribute must be either a primary key or a foreign key
             maselect.disabled = !event.target.checked;
@@ -377,11 +378,11 @@
           } );
 
           eb.addEventListener( 'change', event => {
+            oid.checked= table==1 && eb.checked;
             maselect.disabled = !event.target.checked;
             ref_select.disabled = !event.target.checked;
             oref.checked = false;
             submit.disabled = !event.target.checked;
-            oid.checked = false;
             unique.disabled = !event.target.checked;   // disable checkbox for Eindeuti attribute
             redundanz.disabled = !event.target.checked;
           } );

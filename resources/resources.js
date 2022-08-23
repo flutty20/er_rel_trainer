@@ -24,7 +24,7 @@ export const config = {
  * phrases data
  * @type {Object[]}
  */
-export const phrases = [
+ export const phrases = [
   {
     "text": "Zu jedem Patienten gibt es eine Patientenakte. Die Patientenakte ist ein fester Bestandteil des Patienten. (2e11u, , )",
     "relationship": [ "Patient", "hat", "Patientenakte" ],
@@ -32,13 +32,13 @@ export const phrases = [
     "esolution":[ "2e11u", "", "" ] //2= ref tabelle, e= einbettung|| r=referenz ,11= 1-1 beziehung||1n= 1-n beziehung ||01= 0-1 beziehung ||0n= 0-n beziehung, u=eindeutig|| ''= keine bedingug|| r=Redundanzkontrolle
   },
   {
-    "text": "Eine Stadt kann ein U-Bahnnetz haben. Außerdem ist es möglich dem U-Bahnnetz U-Bahnen hinzuzufügen. (2r01r, , )",
+    "text": "Eine Stadt kann ein U-Bahnnetz haben. Außerdem ist es möglich dem U-Bahnnetz U-Bahnen hinzuzufügen. (2r01r, , )", // zu ungenau
     "relationship": [ "Stadt", "hat", "U-Bahnnetz" ],
     "solution": [ "1", "c" ],
     "esolution":[ "2r01r", "", "" ]
   },
   {
-    "text": "Zu jedem Deckel gibt es einen Topf, es gibt allerdings auch Töpfe ohne Deckel (z.B. Wok).Der Deckel muss nicht eigenständig sein. (2e01u, , )",
+    "text": "Zu jedem Deckel gibt es einen Topf, es gibt allerdings auch Töpfe ohne Deckel (z.B. Wok). Der Deckel muss nicht eigenständig sein. (2e01u, , )",
     "relationship": [ "Topf", "hat", "Deckel" ],
     "solution": [ "1", "c" ],
     "esolution":[ "2e01u", "", "" ]
@@ -75,13 +75,13 @@ export const phrases = [
     "esolution":[ "2e1nu", "", "" ]
   },
   {
-    "text": "Ein Wald besteht aus Bäume. (2e1nu, , )",
+    "text": "Ein Wald besteht aus Bäumen. (2e1nu, , )",
     "relationship": [ "Wald", "besteht aus", "Bäume" ],
     "solution": [ "c", "n" ],
     "esolution":[ "2e1nu", "", "" ]
   },
   {
-    "text": "Auf einem Rezept stehen Zutaten. Die Tabelle der Zutaten wir noch von andern Tabellen benötigt. (2r1n, , )",
+    "text": "Auf einem Rezept stehen Zutaten. Die Tabelle der Zutaten wir noch von anderen Tabellen benötigt. (2r1n, , )",
     "relationship": [ "Rezept", "hat", "Zutat" ],
     "solution": [ "cn", "n" ],
     "esolution":[ "2r1n", "", "" ]
@@ -108,13 +108,13 @@ export const text = {
     "create_tables": "Hinweis: Legen Sie mit Hilfe der Buttons die nötigen Typen an.",
     "add_keys": "Hinweis: Ergänzen Sie in jedem angelegten Typen die erforderlichen Objektidentifikatoren und Referenzattribute.",
     "missing_arrow": "Hinweis: Setzen Sie für die Verbindungslinie zwischen zwei Typen die Pfeilspitzen, um die Richtung und Mengenwertigkeit festzulegen, in der die Typen miteinander in Beziehung stehen.",
-    "missing_entity_table": "Hinweis: Für jede der beiden Entitäten muss eine Typen erstellt werden.",
+    "missing_entity_table": "Hinweis: Für jede der beiden Entitäten muss eines Typen erstellt werden.",
     "missing_entity_oid": "Hinweis: Jede der Typen benötigt einen Objektidentifikator.",
     "no_nm_table": "Hinweis: Die mittlere \"%middle%\"-Typ wird nur bei einer traditionellen N:M-Beziehung benötigt.",
     "missing_nm_table": "Hinweis: Da es sich um eine traditionelle N:M-Beziehung handelt, wird eine \"%middle%\"-Typ benötigt.",
-    "missing_nm_oref": "Hinweis: Der \"%middle%\"-Typ benötigt zwei Referenzen die jeweils auf eine der beiden Typen verweisen.",
+    "missing_nm_oref": "Hinweis: Der \"%middle%\"-Typ benötigt zwei Referenzen, die jeweils auf eine der beiden Typen verweisen.",
     "missing_nm_oid": "Hinweis: Damit jede Kombination aus \"%oref%\" und \"%noref%\" nur einmal vorkommen kann, müssen in der \"%middle%\"-Typ die beiden Referenzen einen zusammengesetzten Objektidentifikator bilden.",
-    "missing_arrowhead": "Hinweis: Da die Referenz oder Einbettung bei \"%oref%\" gesetzt ist und auf \"%noref%\" verweist, geht der Pfeil von \"%oref%\" nach \"%noref%\". Achte darauf, ob es eine Menge oder ein einzelnes objekt ist",
+    "missing_arrowhead": "Hinweis: Da die Referenz bei \"%oref%\" gesetzt ist und auf \"%noref%\" verweist, geht der Pfeil von \"%oref%\" nach \"%noref%\". Achte darauf, ob es eine Menge oder ein einzelnes objekt ist",
     "missing_arrowhead_nm": "Hinweis: Da die beiden Referenzen des \"%middle%\"-Typ auf die beiden äußeren Typen \"%oref%\" und \"%noref%\" verweisen, gehen die Pfeile von dem mittleren Typ zu den äußeren Typen.",
 
     "merge_11": "Anmerkung: In der Praxis werden 1:1-Beziehungen häufig zu einem Typ zusammengefasst.",
@@ -170,13 +170,12 @@ export const text = {
   "ma_input": "Geben Sie hier die Mengenwertigkeit der Beziehung an.",
   "ma_badge": "Mengenwertigesattribut: ermöglicht es Arrays unter einem Attribut zu verwalten.",
   "unique": "Eindeutigkeit",
-  "unique_input": "Geben Sie hier an, ob es sich um einen Eindeutigesattribut  handelt.",
+  "unique_input": "Geben Sie hier an, ob es sich um einen Eindeutigesattribut handelt.",
   "unique_badge": "Eindeutigesattribut: stellt sicher, dass es dasselbe Objekt nur einmal vorkommt",
   "redundanz": "Redundanzkontrolle",
   "redundanz_input": "Geben Sie hier an, ob es sich um einen Redundanzkontrolle handelt.",
   "redundanz_badge": "Redundanzkontrolle: stellt sicher, dass es dasselbe Objekt nur einmal vorkommt",
   "bedingung": "Bedingung"
-
 };
 
 /**
