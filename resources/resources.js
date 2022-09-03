@@ -16,8 +16,6 @@ export const config = {
   "retry": true,                        // "Korrigieren"-Button
   "show_solution": true,                // "Zeige Lösung"-Button
   "shuffle": true,                       // Phrasen mischen
-  "easymode": false,                     //berücksichtigt nur die solution //TODO
-  "bedingung":true                      //berücksichtigt bei der lösung die bedingung //TODO
 };
 
 /**
@@ -26,68 +24,68 @@ export const config = {
  */
  export const phrases = [
   {
-    "text": "Zu jedem Patienten gibt es eine Patientenakte. Die Patientenakte ist ein fester Bestandteil des Patienten. (2e11u, , )",
+    "text": "Zu jedem Patienten gibt es eine Patientenakte. Die Patientenakte ist ein fester Bestandteil des Patienten.",
     "relationship": [ "Patient", "hat", "Patientenakte" ],
     "solution": [ "1", "1" ],
     "esolution":[ "2e11u", "", "" ] //2= ref tabelle, e= einbettung|| r=referenz ,11= 1-1 beziehung||1n= 1-n beziehung ||01= 0-1 beziehung ||0n= 0-n beziehung, u=eindeutig|| ''= keine bedingug|| r=Redundanzkontrolle
   },
   {
-    "text": "Eine Stadt kann ein U-Bahnnetz haben. Außerdem ist es möglich dem U-Bahnnetz U-Bahnen hinzuzufügen. (2r01r, , )", // zu ungenau
+    "text": "Eine Stadt kann ein U-Bahnnetz haben. Außerdem ist es möglich dem U-Bahnnetz U-Bahnen hinzuzufügen.", // zu ungenau
     "relationship": [ "Stadt", "hat", "U-Bahnnetz" ],
     "solution": [ "1", "c" ],
     "esolution":[ "2r01r", "", "" ]
   },
   {
-    "text": "Zu jedem Deckel gibt es einen Topf, es gibt allerdings auch Töpfe ohne Deckel (z.B. Wok). Der Deckel muss nicht eigenständig sein. (2e01u, , )",
+    "text": "Zu jedem Deckel gibt es einen Topf, es gibt allerdings auch Töpfe ohne Deckel (z.B. Wok). Der Deckel muss nicht eigenständig sein.",
     "relationship": [ "Topf", "hat", "Deckel" ],
     "solution": [ "1", "c" ],
     "esolution":[ "2e01u", "", "" ]
   },
   {
-    "text": "Ein Planet kann Monde haben, die ihn umkreisen. Jeder Mond soll selbständig bleiben. (2r0nu, , )",
+    "text": "Ein Planet kann Monde haben, die ihn umkreisen. Jeder Mond soll selbständig bleiben.",
     "relationship": [ "Planet", "hat", "Mond" ],
     "solution": [ "1", "cn" ],
     "esolution":[ "2r0nu", "", "" ]
   },
   {
-    "text": "Ein Rucksack kann mehrere Gegenstände enthalten. Es soll auf die Gegenstände referenziert werden. (2r0nu, , )",
+    "text": "Ein Rucksack kann mehrere Gegenstände enthalten. Es soll auf die Gegenstände referenziert werden.",
     "relationship": [ "Rucksack", "enthält", "Gegenstand" ],
     "solution": [ "c", "cn" ],
     "esolution":[ "2r0nu", "", "" ]
   },
   {
-    "text": "Kunden kaufen Produkte. Nicht nur Kunden, sondern auch Angestellte können Produckte Kaufen. (2r0n, , )",
+    "text": "Kunden kaufen Produkte. Nicht nur Kunden, sondern auch Angestellte können Produckte Kaufen.",
     "relationship": [ "Kunde", "hat gekauft", "Produkt" ],
     "solution": [ "cn", "cn" ],
     "esolution":[ "2r0n", "", "" ]
   },
   {
-    "text": "Ein Mensch kann keine, eine oder mehrere Staatsangehörigkeiten besitzen. (2r0nr, , )",
+    "text": "Ein Mensch kann keine, eine oder mehrere Staatsangehörigkeiten besitzen.",
     "relationship": [ "Mensch", "besitzt", "Staatsangehörigkeit" ],
     "solution": [ "n", "cn" ],
     "esolution":[ "2r0nr", "", "" ]
 
   },
   {
-    "text": "Ein Buch hat mehrere Seiten. Eine Seite soll nur über das Buch erreichbar sein. (2e1nu, , )",
+    "text": "Ein Buch hat mehrere Seiten. Eine Seite soll nur über das Buch erreichbar sein.",
     "relationship": [ "Buch", "hat", "Seite" ],
     "solution": [ "1", "n" ],
     "esolution":[ "2e1nu", "", "" ]
   },
   {
-    "text": "Ein Wald besteht aus Bäumen. (2e1nu, , )",
+    "text": "Ein Wald besteht aus Bäumen.",
     "relationship": [ "Wald", "besteht aus", "Bäume" ],
     "solution": [ "c", "n" ],
     "esolution":[ "2e1nu", "", "" ]
   },
   {
-    "text": "Auf einem Rezept stehen Zutaten. Die Tabelle der Zutaten wir noch von anderen Tabellen benötigt. (2r1n, , )",
+    "text": "Auf einem Rezept stehen Zutaten. Die Tabelle der Zutaten wir noch von anderen Tabellen benötigt.",
     "relationship": [ "Rezept", "hat", "Zutat" ],
     "solution": [ "cn", "n" ],
     "esolution":[ "2r1n", "", "" ]
   },
   {
-    "text": "Ein Haus hat Eigentümer und Eigentümer haben Häuser. Es soll über eine Traditionelle Relationale N-M Beziehung gelöst werden. (, t, )",
+    "text": "Ein Haus hat Eigentümer und Eigentümer haben Häuser. Es soll über eine Traditionelle Relationale N-M Beziehung gelöst werden.",
     "relationship": [ "Haus", "hat", "Eigentümer" ],
     "solution": [ "n", "n" ],
     "esolution":[ "", "t", "" ]
