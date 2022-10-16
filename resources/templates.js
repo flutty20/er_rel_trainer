@@ -166,7 +166,7 @@ export function main(instance, state, phrase, phrase_nr, events) {
         ${instance.feedback && section.feedback  && is_multi && section.input.keys[1] && section.feedback.keys[1]  && (section.input.keys[1][5][0].be !== false|| section.input.keys[1][5][2].be !== false) && phraseComment(instance.text.comment.wrong_be, 0) || ''}
         <div ?data-hidden=${!tablesConnected()}>
         <section class="lead text-nowrap px-2 py-3">
-        <b> Schritt 2: Welche Objekttabellen müssen eretellt werden </b>
+        <b> Schritt 2: Welche Objekttabellen müssen erstellt werden </b>
         </section>
 
         <!-- "Add Table" Buttons -->
